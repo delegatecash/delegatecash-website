@@ -1,5 +1,24 @@
 <script>
+  import { onMount } from 'svelte';
   import Header from '~/components/Header.svelte';
+
+  const onEthereumChange = () => {
+    //clear wallet signature if account is changed
+    localStorage.clear();
+    window.location.reload();
+  };
+
+  onMount(() => {
+    // @ts-ignore
+    window.ethereum?.on('accountsChanged', onEthereumChange);
+    // @ts-ignore
+    window.ethereum?.on('chainChanged', onEthereumChange);
+
+    //watch for tamper in wallet signature
+    window.addEventListener('storage', e => {
+      if (e.key === 'signature' && e.oldValue !== null) window.location.reload();
+    });
+  });
 </script>
 
 <Header />

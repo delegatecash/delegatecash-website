@@ -1,16 +1,25 @@
 <script lang="ts">
   import Icon from '~/design-system/icon/Icon.svelte';
   import BlurContainer from '~/design-system/BlurContainer.svelte';
-  import Button from '~/design-system/Button.svelte';
+  import ConnectWalletButton from '~/components/ConnectWalletButton.svelte';
+  import NetworkSwitcher from '../Networks/NetworkSwitcher.svelte';
   import NavLinks from './NavLinks.svelte';
   import MobileNavigation from './MobileNavigation.svelte';
+  import { getProvider } from 'delegatecash/utils';
 
+  $: showChangeNetwork = false;
   $: showMobileNav = false;
+  $: currentNetwork = null;
+
+  const initialLoad = async () => {
+    currentNetwork = await getProvider().getNetwork();
+  };
+  initialLoad();
 </script>
 
 <nav>
   <a target="_BLANK" href="/">Documentation</a>
-  <Button>Connect Wallet</Button>
+  <ConnectWalletButton on:walletClick={() => (showChangeNetwork = !showChangeNetwork)} />
   <button on:click={() => (showMobileNav = true)}><Icon name="ellipsis-vertical" /></button>
   <div>
     <NavLinks href="https://github.com/delegatecash">
@@ -23,10 +32,22 @@
 </nav>
 
 {#if showMobileNav}
-  <BlurContainer>
-    <MobileNavigation on:close={() => (showMobileNav = false)} />
+  <BlurContainer on:click={() => (showMobileNav = false)}>
+    <MobileNavigation
+      on:close={() => (showMobileNav = false)}
+      on:walletClick={() => {
+        showMobileNav = false;
+        showChangeNetwork = true;
+      }}
+    />
   </BlurContainer>
 {/if}
+
+<NetworkSwitcher
+  isVisible={showChangeNetwork}
+  currentNetworkChainId={currentNetwork?.chainId}
+  on:close={() => (showChangeNetwork = false)}
+/>
 
 <style lang="postcss">
   nav {

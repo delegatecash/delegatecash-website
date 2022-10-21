@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   import Button from '~/design-system/Button.svelte';
   import Icon from '~/design-system/icon/Icon.svelte';
+  import ConnectWalletButton from '../ConnectWalletButton.svelte';
   import NavLinks from './NavLinks.svelte';
 
   const dispatch = createEventDispatcher();
@@ -16,8 +17,8 @@
       </li>
     </ul>
   </div>
-  <footer>
-    <Button>Connect Wallet</Button>
+  <section>
+    <ConnectWalletButton on:walletClick={() => dispatch('walletClick')} />
     <div class="flex">
       <NavLinks href="https://github.com/delegatecash">
         <Icon name="github" />
@@ -26,7 +27,7 @@
         ><Icon name="etherscan" />
       </NavLinks>
     </div>
-  </footer>
+  </section>
 </nav>
 
 <style lang="postcss">
@@ -42,7 +43,7 @@
     @apply text-slate-500;
   }
 
-  footer {
+  section {
     @apply mt-6 pt-5 border-t border-slate-200 flex items-center justify-between;
   }
 
