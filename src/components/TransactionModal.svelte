@@ -45,12 +45,14 @@
     @apply text-xl;
   }
   p {
-    @apply text-xs font-light;
+    @apply text-xs font-light relative;
+    z-index: 1;
   }
 
   a {
-    @apply block w-full text-center text-xs;
+    @apply block w-full text-center text-xs relative;
     color: #094780;
+    z-index: 1;
   }
 
   button {
@@ -62,6 +64,7 @@
     top: -10px;
     background-color: #333;
     color: #fff;
+    z-index: -1;
 
     &:hover {
       @apply opacity-90;

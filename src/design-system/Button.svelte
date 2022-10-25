@@ -2,8 +2,8 @@
   import disableClick from './actions/disableClick';
 
   export let type: 'button' | 'submit' | 'reset' = 'button';
-  export let action: 'primary' = 'primary';
-  export let size: 'sm' = 'sm';
+  export let action: 'primary' | 'destructive' = 'primary';
+  export let size: 'sm' | 'md' = 'sm';
   export let disabled = false;
   export let href = '';
   export let isFullWidth = false;
@@ -30,9 +30,26 @@
       @apply px-4 py-1 text-sm;
     }
 
+    &.md {
+      @apply p-3;
+    }
+
     &.primary {
-      background-color: #00abeb;
+      background-color: #4ca6fb;
       color: #fff;
+    }
+
+    &.destructive {
+      @apply bg-red-500;
+      color: #fff;
+
+      &:hover {
+        @apply bg-red-400;
+      }
+    }
+
+    &:disabled {
+      @apply opacity-40 cursor-not-allowed;
     }
   }
 </style>

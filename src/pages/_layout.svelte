@@ -46,6 +46,6 @@
     title={$transaction.title}
     message={$transaction.message}
     transactionUrl={$transaction.transactionUrl}
-    on:close={() => transaction.setModal(false)}
+    on:close={() => location.reload()}
   />
 {/if}

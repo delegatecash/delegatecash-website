@@ -82,7 +82,7 @@ export const switchNetwork = async (params) => {
   }
 }
 
-export let revoke = async (pendingMessage: string, recieptMessage: string, func: Function, parameters: any[]) => {
+export let submitTransaction = async (pendingMessage: string, recieptMessage: string, func: Function, parameters: any[] = []) => {
   try {
     transaction.reset();
     transaction.setModal(true);

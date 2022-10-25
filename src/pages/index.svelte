@@ -1,9 +1,12 @@
 <script lang="ts">
   import { wallet } from '~/stores/wallet';
+  import { delegateForAll, delegateForContract, delegateForToken } from 'delegatecash';
+  import { submitTransaction } from '~/utils';
   import Card from '~/design-system/Card.svelte';
   import TextInput from '~/design-system/inputs/TextInput.svelte';
   import HorizontalPicker from '~/design-system/HorizontalPicker.svelte';
   import NoticeContainer from '~/design-system/NoticeContainer.svelte';
+  import Button from '~/design-system/Button.svelte';
 
   $: optionValue = 0;
 
@@ -35,6 +38,36 @@
     if (newValue < 2) tokenId = '';
     if (newValue == 0) contract = '';
     optionValue = newValue;
+  };
+
+  const submitDelegation = () => {
+    try {
+      switch (optionValue) {
+        case 0:
+          submitTransaction('Delegating wallet', 'Wallet delegated', delegateForAll, [
+            delegate,
+            true,
+          ]);
+          break;
+        case 1:
+          submitTransaction('Delegating contract', 'Contract delegated', delegateForContract, [
+            delegate,
+            contract,
+            true,
+          ]);
+          break;
+        case 2:
+          submitTransaction(
+            `Delegating NFT #${tokenId}`,
+            `NFT#${tokenId} delegated`,
+            delegateForToken,
+            [delegate, contract, tokenId, true],
+          );
+          break;
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 </script>
 
@@ -80,15 +113,24 @@
       </div>
     {/if}
 
-    <button
-      style="background-color:#4CA6FB"
-      class="bg-gray-300 text-white font-light mt-3 mb-1 p-3 rounded w-full"
-      >Submit Delegation</button
-    >
+    <div class="mt-3">
+      <Button
+        size="md"
+        isFullWidth
+        disabled={!$wallet.isConnected}
+        on:click={() => submitDelegation()}
+      >
+        {#if $wallet.isConnected}
+          Submit Delegation
+        {:else}
+          Connect wallet first
+        {/if}
+      </Button>
+    </div>
   </Card>
-  <a class:disabled={!$wallet.isConnected} href="/{$wallet.currentWallet}"
-    >Need to revoke delegations?</a
-  >
+  <a class:disabled={!$wallet.isConnected} href="/{$wallet.currentWallet}">
+    Need to revoke delegations?
+  </a>
 </div>
 
 <style lang="postcss">
