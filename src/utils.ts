@@ -63,6 +63,7 @@ export const switchNetwork = async (params) => {
 
         params.chainId = ethers.utils.hexValue(params.chainId);
         delete params.testnet;
+        delete params.explorerUrl;
 
         await ethereum.request({
           method: 'wallet_addEthereumChain',

@@ -1,10 +1,11 @@
 <script lang="ts">
+  import { wallet } from '~/stores/wallet';
   import Card from '~/design-system/Card.svelte';
   import TextInput from '~/design-system/inputs/TextInput.svelte';
   import HorizontalPicker from '~/design-system/HorizontalPicker.svelte';
   import NoticeContainer from '~/design-system/NoticeContainer.svelte';
 
-  $: optionValue = 2;
+  $: optionValue = 0;
 
   $: noticeContainerInfo = (() => {
     switch (optionValue) {
@@ -85,7 +86,9 @@
       >Submit Delegation</button
     >
   </Card>
-  <a class:disabled={false} href="/123">Need to revoke delegations?</a>
+  <a class:disabled={!$wallet.isConnected} href="/{$wallet.currentWallet}"
+    >Need to revoke delegations?</a
+  >
 </div>
 
 <style lang="postcss">
