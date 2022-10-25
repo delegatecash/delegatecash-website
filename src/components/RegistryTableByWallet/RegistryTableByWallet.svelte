@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, onMount } from 'svelte';
   import { truncateWallet } from '../../utils';
   import Table from '~/design-system/Table/Table.svelte';
   import TableRow from '~/design-system/Table/TableRow.svelte';
@@ -19,9 +19,16 @@
 
   export let loading: boolean;
   export let data: RegistryRow[];
+  export let showRevoke: boolean = false;
+
+  $: columns = (() => {
+    let cols = ['Delegate', 'Type', 'Contract', 'Token ID'];
+    if (showRevoke) cols = cols.concat(['Revoke']);
+    return cols;
+  })();
 </script>
 
-<Table columns={['Delegate', 'Type', 'Contract', 'Token ID', 'Revoke']}>
+<Table {columns}>
   {#if !loading}
     {#if data.length === 0}
       <TableRow>
@@ -66,11 +73,13 @@
               {/if}
             </div>
           </TableItem>
-          <TableItem>
-            <button class="ml-3 w-7 hover:fill-red-500" on:click={() => dispatch('revoke', row)}>
-              <Icon name="trash" />
-            </button>
-          </TableItem>
+          {#if showRevoke}
+            <TableItem>
+              <button class="ml-3 w-7 hover:fill-red-500" on:click={() => dispatch('revoke', row)}>
+                <Icon name="trash" />
+              </button>
+            </TableItem>
+          {/if}
         </TableRow>
       {/each}
     {/if}
