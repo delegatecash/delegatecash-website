@@ -1,6 +1,9 @@
 <script>
   import { onMount } from 'svelte';
+  import { isConnected, getCurrentWallet } from '~/utils';
+  import { wallet } from '~/stores/wallet';
   import Header from '~/components/Header.svelte';
+  import TransactionModal from '~/components/TransactionModal.svelte';
 
   const onEthereumChange = () => {
     //clear wallet signature if account is changed
@@ -8,7 +11,7 @@
     window.location.reload();
   };
 
-  onMount(() => {
+  onMount(async () => {
     // @ts-ignore
     window.ethereum?.on('accountsChanged', onEthereumChange);
     // @ts-ignore
@@ -18,6 +21,12 @@
     window.addEventListener('storage', e => {
       if (e.key === 'signature' && e.oldValue !== null) window.location.reload();
     });
+
+    const connected = await isConnected();
+    if (connected) {
+      const currentWallet = await getCurrentWallet();
+      wallet.setConnectionStatus(connected, currentWallet);
+    }
   });
 </script>
 
@@ -30,3 +39,5 @@
   </p>
   <slot />
 </div>
+
+<!-- <TransactionModal /> -->
