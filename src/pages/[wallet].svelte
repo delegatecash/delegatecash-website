@@ -1,27 +1,58 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+  import { isConnected, getCurrentWallet } from '~/utils';
+  import {
+    getDelegatesForAll,
+    getContractLevelDelegations,
+    getTokenLevelDelegations,
+  } from 'delegatecash';
   import RegistryTableByWallet from '~/components/RegistryTableByWallet.svelte';
+
+  $: loading = true;
+  $: connected = false;
+  $: currentWallet = null;
+  $: delegations = [];
+
+  onMount(async () => {
+    connected = await isConnected();
+    if (connected) {
+      currentWallet = await getCurrentWallet();
+
+      try {
+        const [delegatesForAll, contractLevelDelegations, delegatesForContract] = await Promise.all(
+          [
+            await getDelegatesForAll(currentWallet),
+            await getContractLevelDelegations(currentWallet),
+            await getTokenLevelDelegations(currentWallet),
+          ],
+        );
+
+        delegatesForAll.forEach(delegate => {
+          delegations.push({ type: 'ALL', delegate });
+        });
+
+        contractLevelDelegations.forEach(item => {
+          delegations.push({ type: 'CONTRACT', delegate: item.delegate, contract: item.contract });
+        });
+
+        delegatesForContract.forEach(item => {
+          delegations.push({
+            type: 'TOKEN',
+            delegate: item.delegate,
+            contract: item.contract,
+            tokenId: item.tokenId,
+          });
+        });
+
+        delegations = delegations;
+        loading = false;
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  });
 </script>
 
-<RegistryTableByWallet
-  data={[
-    {
-      walletContract: '0xe79bb39b84cc8a3ab47144bcd8419309551e166d',
-      type: 'wallet',
-      tokenId: null,
-      dateAdded: 1666015841,
-    },
-    {
-      walletContract: '0xe79bb39b84cc8a3ab47144bcd8419309551e166d',
-      type: 'contract',
-      tokenId: null,
-      dateAdded: 1665750493,
-    },
-    {
-      walletContract: '0xe79bb39b84cc8a3ab47144bcd8419309551e166d',
-      type: 'nft',
-      tokenId: 1,
-      dateAdded: 1665288000,
-    },
-  ]}
-  on:revoke={row => console.log(row.detail)}
-/>
+{#if isConnected}
+  <RegistryTableByWallet {loading} data={delegations} on:revoke={row => console.log(row.detail)} />
+{/if}

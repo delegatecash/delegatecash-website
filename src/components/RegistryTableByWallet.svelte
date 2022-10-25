@@ -6,54 +6,81 @@
   import TableItem from '~/design-system/Table/TableItem.svelte';
   import Label from '~/design-system/Label.svelte';
   import Icon from '~/design-system/icon/Icon.svelte';
-  import DateTime from '~/design-system/DateTime.svelte';
+  import HorizontalLoading from '~/design-system/HorizontalLoading.svelte';
 
   const dispatch = createEventDispatcher();
 
   type RegistryRow = {
-    walletContract: string;
-    type: 'wallet' | 'contract' | 'nft';
+    delegate: string;
+    type: 'NONE' | 'ALL' | 'CONTRACT' | 'TOKEN';
+    contract?: string;
     tokenId?: number;
-    dateAdded: number;
   };
 
-  export let data: RegistryRow[] = [];
+  export let loading: boolean;
+  export let data: RegistryRow[];
 </script>
 
-<Table columns={['Wallet / Contract', 'Type', 'Token ID', 'Date Added', 'Revoke']}>
-  {#each data as row}
+<Table columns={['Delegate', 'Type', 'Contract', 'Token ID', 'Revoke']}>
+  {#if !loading}
+    {#if data.length === 0}
+      <TableRow>
+        <TableItem isFullWidth>
+          <div class="w-full my-3 text-center">This wallet has no delegations</div>
+        </TableItem>
+      </TableRow>
+    {:else}
+      {#each data as row}
+        <TableRow>
+          <TableItem>
+            <a target="_BLANK" href="https://etherscan.io/address/{row.delegate}"
+              >{truncateWallet(row.delegate)}</a
+            >
+          </TableItem>
+          <TableItem>
+            {#if row.type == 'ALL'}
+              <Label color="green">Wallet</Label>
+            {:else if row.type == 'CONTRACT'}
+              <Label color="orange">Contract</Label>
+            {:else if row.type == 'TOKEN'}
+              <Label color="blue">NFT</Label>
+            {/if}
+          </TableItem>
+          <TableItem>
+            <div class="ml-3">
+              {#if row.contract}
+                <a target="_BLANK" href="https://etherscan.io/address/{row.contract}"
+                  >{truncateWallet(row.contract)}</a
+                >
+              {:else}
+                &mdash;
+              {/if}
+            </div>
+          </TableItem>
+          <TableItem>
+            <div class="ml-3">
+              {#if row.tokenId}
+                {row.tokenId}
+              {:else}
+                &mdash;
+              {/if}
+            </div>
+          </TableItem>
+          <TableItem>
+            <button class="ml-3 w-7" on:click={() => dispatch('revoke', row)}>
+              <Icon name="trash" />
+            </button>
+          </TableItem>
+        </TableRow>
+      {/each}
+    {/if}
+  {:else}
     <TableRow>
-      <TableItem>
-        <a target="_BLANK" href="https://etherscan.io/address/{row.walletContract}"
-          >{truncateWallet(row.walletContract)}</a
-        >
-      </TableItem>
-      <TableItem>
-        {#if row.type == 'wallet'}
-          <Label color="green">Wallet</Label>
-        {:else if row.type == 'contract'}
-          <Label color="orange">Contract</Label>
-        {:else if row.type == 'nft'}
-          <Label color="blue">NFT</Label>
-        {/if}
-      </TableItem>
-      <TableItem>
-        <div class="ml-3">
-          {#if row.tokenId}
-            {row.tokenId}
-          {:else}
-            &mdash;
-          {/if}
+      <TableItem isFullWidth>
+        <div class="w-full my-3 text-center">
+          <HorizontalLoading />
         </div>
       </TableItem>
-      <TableItem>
-        <DateTime timestamp={row.dateAdded} />
-      </TableItem>
-      <TableItem>
-        <button class="ml-3 w-7" on:click={() => dispatch('revoke', row)}>
-          <Icon name="trash" />
-        </button>
-      </TableItem>
     </TableRow>
-  {/each}
+  {/if}
 </Table>
