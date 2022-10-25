@@ -83,17 +83,23 @@ export const switchNetwork = async (params) => {
 }
 
 export let revoke = async (pendingMessage: string, recieptMessage: string, func: Function, parameters: any[]) => {
-  transaction.reset();
-  transaction.setModal(true);
-  transaction.setMessage(pendingMessage);
-
-  const pendingTransaction = await func.apply(this, parameters);
-  getProvider().waitForTransaction(pendingTransaction.hash, 1, 150000).then(async (reciept) => {
-    const currentNetwork = await getProvider().getNetwork();
-    const explorerUrl = findNetworkByChainId(currentNetwork?.chainId).explorerUrl;
-    transaction.setTitle("Transaction Complete");
-    transaction.setMessage(recieptMessage);
-    transaction.setTransactionUrl(`${explorerUrl}/tx/${reciept.transactionHash}`);
-  });
+  try {
+    transaction.reset();
+    transaction.setModal(true);
+    transaction.setMessage(pendingMessage);
+    
+    const pendingTransaction = await func.apply(this, parameters);
+    getProvider().waitForTransaction(pendingTransaction.hash, 1, 150000).then(async (reciept) => {
+      const currentNetwork = await getProvider().getNetwork();
+      const explorerUrl = findNetworkByChainId(currentNetwork?.chainId).explorerUrl;
+      transaction.setTitle("Transaction Complete");
+      transaction.setMessage(recieptMessage);
+      transaction.setTransactionUrl(`${explorerUrl}/tx/${reciept.transactionHash}`);
+    });
+  }
+  catch {
+    transaction.reset();
+    transaction.setModal(false);
+  }
 
 }
