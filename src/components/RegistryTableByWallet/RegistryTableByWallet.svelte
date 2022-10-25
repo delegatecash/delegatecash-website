@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import { truncateWallet } from '../utils';
+  import { truncateWallet } from '../../utils';
   import Table from '~/design-system/Table/Table.svelte';
   import TableRow from '~/design-system/Table/TableRow.svelte';
   import TableItem from '~/design-system/Table/TableItem.svelte';
@@ -67,7 +67,7 @@
             </div>
           </TableItem>
           <TableItem>
-            <button class="ml-3 w-7" on:click={() => dispatch('revoke', row)}>
+            <button class="ml-3 w-7 hover:fill-red-500" on:click={() => dispatch('revoke', row)}>
               <Icon name="trash" />
             </button>
           </TableItem>

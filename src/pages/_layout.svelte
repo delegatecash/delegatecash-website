@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { isConnected, getCurrentWallet } from '~/utils';
   import { wallet } from '~/stores/wallet';
+  import { transaction } from '~/stores/transaction';
   import Header from '~/components/Header.svelte';
   import TransactionModal from '~/components/TransactionModal.svelte';
 
@@ -40,4 +41,11 @@
   <slot />
 </div>
 
-<!-- <TransactionModal /> -->
+{#if $transaction.showModal}
+  <TransactionModal
+    title={$transaction.title}
+    message={$transaction.message}
+    transactionUrl={$transaction.transactionUrl}
+    on:close={() => transaction.setModal(false)}
+  />
+{/if}

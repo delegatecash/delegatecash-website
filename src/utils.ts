@@ -1,5 +1,7 @@
 import { getProvider } from "delegatecash/utils";
 import { ethers } from "ethers";
+import { transaction } from "~/stores/transaction";
+import { findNetworkByChainId } from '~/components/Networks/networks';
 
 let ethereum;
 // @ts-ignore
@@ -78,4 +80,20 @@ export const switchNetwork = async (params) => {
     // handle other "switch" errors
     return;
   }
+}
+
+export let revoke = async (pendingMessage: string, recieptMessage: string, func: Function, parameters: any[]) => {
+  transaction.reset();
+  transaction.setModal(true);
+  transaction.setMessage(pendingMessage);
+
+  const pendingTransaction = await func.apply(this, parameters);
+  getProvider().waitForTransaction(pendingTransaction.hash, 1, 150000).then(async (reciept) => {
+    const currentNetwork = await getProvider().getNetwork();
+    const explorerUrl = findNetworkByChainId(currentNetwork?.chainId).explorerUrl;
+    transaction.setTitle("Transaction Complete");
+    transaction.setMessage(recieptMessage);
+    transaction.setTransactionUrl(`${explorerUrl}/tx/${reciept.transactionHash}`);
+  });
+
 }
