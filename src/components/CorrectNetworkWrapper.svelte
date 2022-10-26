@@ -3,22 +3,22 @@
   import { onMount } from 'svelte';
   import { wallet } from '~/stores/wallet';
 
-  $: networkFound = null;
+  $: error = null;
 
   onMount(async () => {
     try {
       const test = await getDelegatesForAll('0x0000000000000000000000000000000000000001');
-      console.log(test);
       if (test) networkFound = true;
-    } catch {
-      networkFound = false;
+    } catch (err) {
+      if (err.message.includes('revert')) error = 'network_not_supported';
+      else error = 'browser_not_supported';
     }
   });
 </script>
 
-{#if networkFound === null}
+{#if error === null}
   &nbsp;
-{:else if networkFound}
+{:else if !$wallet.isConnected || error !== 'network_not_supported'}
   <slot />
 {:else}
   <p class="font-bold">This network is not yet supported.</p>
