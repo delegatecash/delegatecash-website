@@ -5,6 +5,8 @@
   import { transaction } from '~/stores/transaction';
   import Header from '~/components/Header.svelte';
   import TransactionModal from '~/components/TransactionModal.svelte';
+  import NetworkSwitcherModal from '~/components/NetworkSwitcherModal/NetworkSwitcherModal.svelte';
+  import CorrectNetworkWrapper from '~/components/CorrectNetworkWrapper.svelte';
 
   const onEthereumChange = () => {
     //clear wallet signature if account is changed
@@ -38,7 +40,10 @@
   <p class="mt-3 mb-10">
     Keep your vaulted NFTs safe. Claim airdrops, prove ownership, and more from your hot wallet.
   </p>
-  <slot />
+
+  <CorrectNetworkWrapper>
+    <slot />
+  </CorrectNetworkWrapper>
 </div>
 
 {#if $transaction.showModal}
@@ -48,4 +53,8 @@
     transactionUrl={$transaction.transactionUrl}
     on:close={() => location.reload()}
   />
+{/if}
+
+{#if $wallet.showNetworkSwitcher}
+  <NetworkSwitcherModal on:close={() => wallet.setNetworkSwitcher(false)} />
 {/if}

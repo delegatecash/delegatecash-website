@@ -1,5 +1,6 @@
 <script lang="ts">
   export let title: string = '';
+  export let type: 'primary' | 'destruction' = 'primary';
 </script>
 
 <div>

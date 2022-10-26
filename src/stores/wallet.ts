@@ -4,7 +4,8 @@ function createWalletStore() {
 
   const defaultObj = {
     isConnected: false,
-    currentWallet: null
+    currentWallet: null,
+    showNetworkSwitcher: false
   }
 
 	const { subscribe, set, update } = writable(defaultObj);
@@ -16,6 +17,12 @@ function createWalletStore() {
         ...obj,
         isConnected,
         currentWallet
+      }
+    }),
+    setNetworkSwitcher: (showNetworkSwitcher: boolean) => update(obj => {
+      return {
+        ...obj,
+        showNetworkSwitcher
       }
     }),
 		reset: () => set(defaultObj)

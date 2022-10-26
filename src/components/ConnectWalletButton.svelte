@@ -1,5 +1,5 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, onMount } from 'svelte';
   import {
     truncateWallet,
     connectWallet,
@@ -10,7 +10,7 @@
   import Button from '~/design-system/Button.svelte';
 
   import { getProvider } from 'delegatecash/utils';
-  import { findNetworkByChainId } from '~/components/Networks/networks';
+  import { findNetworkByChainId } from '~/components/NetworkSwitcherModal/networks';
 
   const dispatch = createEventDispatcher();
 
@@ -20,26 +20,32 @@
   $: currentNetwork = null;
   $: foundNetwork = findNetworkByChainId(currentNetwork?.chainId);
 
-  const initialLoad = async () => {
+  onMount(async () => {
     [connected, wallet] = await Promise.all([isConnected(), getCurrentWallet()]);
     [ensName, currentNetwork] = await Promise.all([getEnsName(wallet), getProvider().getNetwork()]);
-  };
-
-  initialLoad();
+  });
 </script>
 
 {#if connected}
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div on:click={() => dispatch('walletClick')}>
-    <p title={wallet}>
-      {#if ensName}
-        {ensName}
-      {:else}
-        {truncateWallet(wallet, 4, 4)}
-      {/if}
-    </p>
-    {#if foundNetwork}<span>{foundNetwork.chainName}</span>{/if}
-  </div>
+  {#if currentNetwork}
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <div on:click={() => dispatch('walletClick')}>
+      <p title={wallet}>
+        {#if ensName}
+          {ensName}
+        {:else}
+          {truncateWallet(wallet, 4, 4)}
+        {/if}
+      </p>
+      <span>
+        {#if foundNetwork}
+          {foundNetwork.chainName}
+        {:else}
+          {currentNetwork?.name.capitalize()}
+        {/if}
+      </span>
+    </div>
+  {/if}
 {:else}
   <Button on:click={() => connectWallet()}>Connect Wallet</Button>
 {/if}

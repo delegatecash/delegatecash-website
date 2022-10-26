@@ -1,7 +1,14 @@
 import { getProvider } from "delegatecash/utils";
 import { ethers } from "ethers";
 import { transaction } from "~/stores/transaction";
-import { findNetworkByChainId } from '~/components/Networks/networks';
+import { findNetworkByChainId } from '~/components/NetworkSwitcherModal/networks';
+
+Object.defineProperty(String.prototype, 'capitalize', {
+  value: function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+  },
+  enumerable: false
+});
 
 let ethereum;
 // @ts-ignore
