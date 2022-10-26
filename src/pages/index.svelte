@@ -140,7 +140,7 @@
       </Button>
     </div>
   </Card>
-  <a class:disabled={!$wallet.isConnected} href="/{$wallet.currentWallet}">
+  <a class:disabled={!$wallet.isConnected} href="/{$wallet.currentWallet || ''}">
     Need to revoke delegations?
   </a>
 </div>
