@@ -1,18 +1,18 @@
-import { getProvider } from "delegatecash/utils";
-import { ethers } from "ethers";
-import { transaction } from "~/stores/transaction";
+import { getProvider } from 'delegatecash/utils';
+import { ethers } from 'ethers';
+import { transaction } from '~/stores/transaction';
 import { findNetworkByChainId } from '~/components/NetworkSwitcherModal/networks';
 
 Object.defineProperty(String.prototype, 'capitalize', {
-  value: function() {
+  value: function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
   },
-  enumerable: false
+  enumerable: false,
 });
 
 let ethereum;
 // @ts-ignore
-if(window.ethereum) ethereum = window.ethereum;
+if (window.ethereum) ethereum = window.ethereum;
 
 export const truncateWallet = (wallet, left = 8, right = 8) => {
   wallet = String(wallet);
@@ -22,54 +22,56 @@ export const truncateWallet = (wallet, left = 8, right = 8) => {
 
 export const connectWallet = async () => {
   try {
-      return await ethereum.request({ method: 'eth_requestAccounts' });
+    return await ethereum.request({ method: 'eth_requestAccounts' });
+  } catch {
+    return;
   }
-  catch { return; }
-}
+};
 
 export const getWallets = async () => {
   try {
     return await ethereum.request({ method: 'eth_accounts' });
+  } catch {
+    return [];
   }
-  catch { return []; }
-}
+};
 
 export const getCurrentWallet = async () => {
   try {
     const wallets = await getWallets();
     return wallets[0] || null;
+  } catch {
+    return null;
   }
-  catch { return null; }
-}
+};
 
 export const isConnected = async () => {
   try {
     const wallets = await getWallets();
     return wallets.length > 0;
+  } catch {
+    return false;
   }
-  catch { return false; }
-}
+};
 
-export const getEnsName = async (address) => {
+export const getEnsName = async address => {
   try {
     return await getProvider().lookupAddress(address);
+  } catch {
+    return null;
   }
-  catch { return null; }
-}
+};
 
-export const switchNetwork = async (params) => {
-
+export const switchNetwork = async params => {
   try {
     await ethereum.request({
       method: 'wallet_switchEthereumChain',
       params: [{ chainId: ethers.utils.hexValue(params.chainId) }],
     });
   } catch (switchError) {
-
     // This error code indicates that the chain has not been added to MetaMask.
     if (switchError.code === 4902) {
       try {
-
         params.chainId = ethers.utils.hexValue(params.chainId);
         delete params.testnet;
         delete params.explorerUrl;
@@ -87,26 +89,31 @@ export const switchNetwork = async (params) => {
     // handle other "switch" errors
     return;
   }
-}
+};
 
-export let submitTransaction = async (pendingMessage: string, recieptMessage: string, func: Function, parameters: any[] = []) => {
+export let submitTransaction = async (
+  pendingMessage: string,
+  recieptMessage: string,
+  func: Function,
+  parameters: any[] = [],
+) => {
   try {
     transaction.reset();
     transaction.setModal(true);
     transaction.setMessage(pendingMessage);
-    
+
     const pendingTransaction = await func.apply(this, parameters);
-    getProvider().waitForTransaction(pendingTransaction.hash, 1, 150000).then(async (reciept) => {
-      const currentNetwork = await getProvider().getNetwork();
-      const explorerUrl = findNetworkByChainId(currentNetwork?.chainId).explorerUrl;
-      transaction.setTitle("Transaction Complete");
-      transaction.setMessage(recieptMessage);
-      transaction.setTransactionUrl(`${explorerUrl}/tx/${reciept.transactionHash}`);
-    });
-  }
-  catch {
+    getProvider()
+      .waitForTransaction(pendingTransaction.hash, 1, 150000)
+      .then(async reciept => {
+        const currentNetwork = await getProvider().getNetwork();
+        const explorerUrl = findNetworkByChainId(currentNetwork?.chainId).explorerUrl;
+        transaction.setTitle('Transaction Complete');
+        transaction.setMessage(recieptMessage);
+        transaction.setTransactionUrl(`${explorerUrl}/tx/${reciept.transactionHash}`);
+      });
+  } catch {
     transaction.reset();
     transaction.setModal(false);
   }
-
-}
+};

@@ -15,7 +15,7 @@ export const iconSvgNames = {
   etherscan: EtherscanIcon,
   'ellipsis-vertical': EllipsisVerticalIcon,
   x: XIcon,
-  'check-shield': CheckShieldIcon
+  'check-shield': CheckShieldIcon,
 } as const;
 
 export type IconName = keyof typeof iconSvgNames;

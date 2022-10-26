@@ -15,6 +15,8 @@
   import RegistryTableByWallet from '~/components/RegistryTableByWallet/RegistryTableByWallet.svelte';
   import type { RegistryRow } from '~/components/RegistryTableByWallet/types';
 
+  import Revoke from './revoke.svelte';
+
   $: loading = true;
   $: connected = false;
   $: wallet = $params.wallet.toLowerCase();
@@ -88,6 +90,10 @@
 </script>
 
 {#if isConnected}
+  {#if currentWallet === wallet}
+    <Revoke />
+  {/if}
+
   <RegistryTableByWallet
     {loading}
     data={delegations}

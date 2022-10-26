@@ -8,15 +8,15 @@ export default defineConfig({
     svelte({
       onwarn: (warning, handler) => {
         const { code, frame } = warning;
-        if (code === "css-unused-selector")
-            return;
+        if (code === 'css-unused-selector') return;
 
         handler(warning);
       },
-    })],
+    }),
+  ],
   resolve: {
     alias: {
-      "~": path.resolve(__dirname, "src"),
+      '~': path.resolve(__dirname, 'src'),
     },
   },
 });

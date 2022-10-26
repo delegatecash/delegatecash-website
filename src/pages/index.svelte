@@ -32,6 +32,18 @@
   $: delegate = '';
   $: contract = '';
   $: tokenId = '';
+  $: isFormValid = (() => {
+    switch (optionValue) {
+      case 0:
+        return delegate.length === 42;
+      case 1:
+        return delegate.length === 42 && contract.length === 42;
+      case 2:
+        return delegate.length === 42 && contract.length === 42 && tokenId.length > 0;
+      default:
+        return false;
+    }
+  })();
 
   const onHorizontalPickerChange = e => {
     const newValue = e.detail;
@@ -117,7 +129,7 @@
       <Button
         size="md"
         isFullWidth
-        disabled={!$wallet.isConnected}
+        disabled={!$wallet.isConnected || !isFormValid}
         on:click={() => submitDelegation()}
       >
         {#if $wallet.isConnected}
