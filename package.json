@@ -30,8 +30,7 @@
     "vite": "^3.1.0"
   },
   "dependencies": {
-    "dayjs": "^1.11.5",
-    "delegatecash": "^0.1.0",
+    "delegatecash": "^0.2.0",
     "ethers": "^5.7.1"
   }
 }
