@@ -36,8 +36,8 @@ jobs:
         run: |
           ls
           mkdir deploy-copy
-          mv gh-pages/* deploy-copy
-          # mv main/dist/* gh-pages
+          # mv gh-pages/* deploy-copy
+          mv main/dist/* gh-pages
           # mv deploy-copy/CNAME gh-pages
           cd gh-pages
           git config --global user.email "github@github.com"
