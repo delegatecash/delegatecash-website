@@ -39,6 +39,13 @@
   nav {
     @apply flex text-sm font-light items-center;
 
+    a {
+      @apply hidden mr-6;
+      @screen sm {
+        @apply inline-block;
+      }
+    }
+
     button {
       @apply inline-block ml-3 mr-2 opacity-70 cursor-pointer w-2.5;
       &:hover {
