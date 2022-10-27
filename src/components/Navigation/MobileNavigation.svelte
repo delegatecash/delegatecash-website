@@ -13,7 +13,7 @@
   <div>
     <ul>
       <li>
-        <a href="#">Documentation</a>
+        <a target="_BLANK" href="https://docs.delegate.cash">Documentation</a>
       </li>
     </ul>
   </div>
