@@ -12,7 +12,7 @@
 
 <style lang="postcss">
   header {
-    @apply flex-1 p-2 mb-10 bg-white border-b border-slate-900/10 flex justify-between items-center;
+    @apply fixed w-full top-0 flex-1 p-2 mb-10 bg-white border-b border-slate-900/10 flex justify-between items-center;
 
     div {
       @apply hidden;
