@@ -89,7 +89,7 @@
         case 2:
           submitTransaction(
             `Delegating NFT #${tokenIdInput}`,
-            `NFT#${tokenIdInput} delegated`,
+            `NFT #${tokenIdInput} delegated`,
             delegateForToken,
             [delegateInput, contractInput, tokenIdInput, true],
           );
