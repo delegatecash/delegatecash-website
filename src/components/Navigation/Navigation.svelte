@@ -14,6 +14,9 @@
   <ConnectWalletButton on:walletClick={() => wallet.setNetworkSwitcher(true)} />
   <button on:click={() => (showMobileNav = true)}><Icon name="ellipsis-vertical" /></button>
   <div>
+    <NavLinks href="https://twitter.com/delegatecash">
+      <Icon name="twitter" />
+    </NavLinks>
     <NavLinks href="https://github.com/delegatecash">
       <Icon name="github" />
     </NavLinks>

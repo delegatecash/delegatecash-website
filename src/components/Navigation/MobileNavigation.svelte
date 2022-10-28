@@ -20,6 +20,9 @@
   <section>
     <ConnectWalletButton on:walletClick={() => dispatch('walletClick')} />
     <div class="flex">
+      <NavLinks href="https://twitter.com/delegatecash">
+        <Icon name="twitter" />
+      </NavLinks>
       <NavLinks href="https://github.com/delegatecash">
         <Icon name="github" />
       </NavLinks>

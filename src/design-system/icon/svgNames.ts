@@ -6,6 +6,7 @@ import EtherscanIcon from './svgs/etherscan.svelte';
 import EllipsisVerticalIcon from './svgs/ellipsis-vertical.svelte';
 import XIcon from './svgs/x.svelte';
 import CheckShieldIcon from './svgs/check-shield.svelte';
+import TwitterIcon from './svgs/twitter.svelte';
 
 export const iconSvgNames = {
   book: BookIcon,
@@ -16,6 +17,7 @@ export const iconSvgNames = {
   'ellipsis-vertical': EllipsisVerticalIcon,
   x: XIcon,
   'check-shield': CheckShieldIcon,
+  twitter: TwitterIcon
 } as const;
 
 export type IconName = keyof typeof iconSvgNames;
