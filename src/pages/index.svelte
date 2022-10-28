@@ -1,12 +1,13 @@
 <script lang="ts">
-  import { wallet } from '~/stores/wallet';
   import { delegateForAll, delegateForContract, delegateForToken } from 'delegatecash';
-  import { submitTransaction } from '~/utils';
+  import { isConnected, getCurrentWallet, submitTransaction, getDelegations } from '~/utils';
   import Card from '~/design-system/Card.svelte';
   import TextInput from '~/design-system/inputs/TextInput.svelte';
   import HorizontalPicker from '~/design-system/HorizontalPicker.svelte';
   import NoticeContainer from '~/design-system/NoticeContainer.svelte';
   import Button from '~/design-system/Button.svelte';
+  import RegistryTableByWallet from '~/components/RegistryTableByWallet/RegistryTableByWallet.svelte';
+  import { onMount } from 'svelte';
 
   $: optionValue = 0;
 
@@ -29,9 +30,15 @@
     }
   })();
 
+  $: connected = false;
+  $: loading = true;
+  $: wallet = null;
+  $: delegations = [];
+
   $: delegate = '';
   $: contract = '';
   $: tokenId = '';
+
   $: isFormValid = (() => {
     switch (optionValue) {
       case 0:
@@ -81,9 +88,21 @@
       console.log(err);
     }
   };
+
+  onMount(async () => {
+    connected = await isConnected();
+    if (connected) {
+      wallet = await getCurrentWallet();
+      delegations = await getDelegations(wallet);
+      loading = false;
+    }
+  });
 </script>
 
-<div class="text-center w-full md:max-w-lg lg:w-1/2 md:w-4/6 m-auto">
+<div
+  class="text-center w-full md:max-w-lg lg:w-1/2 md:w-4/6 m-auto"
+  class:mb-10={delegations.length}
+>
   <Card>
     <HorizontalPicker
       value={optionValue}
@@ -129,10 +148,10 @@
       <Button
         size="md"
         isFullWidth
-        disabled={!$wallet.isConnected || !isFormValid}
+        disabled={!isConnected || !isFormValid}
         on:click={() => submitDelegation()}
       >
-        {#if $wallet.isConnected}
+        {#if isConnected}
           Submit Delegation
         {:else}
           Connect your vault, like a Ledger, first
@@ -140,10 +159,13 @@
       </Button>
     </div>
   </Card>
-  <a class:disabled={!$wallet.isConnected} href="/{$wallet.currentWallet || ''}">
-    Need to revoke delegations?
-  </a>
 </div>
+
+{#if delegations.length}
+  <RegistryTableByWallet {loading} data={delegations} showRevoke={false} />
+{/if}
+
+<a class:disabled={!isConnected} href="/{wallet || ''}"> Need to revoke delegations? </a>
 
 <style lang="postcss">
   a {

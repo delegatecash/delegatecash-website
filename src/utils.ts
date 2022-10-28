@@ -2,6 +2,8 @@ import { getProvider } from 'delegatecash/utils';
 import { ethers } from 'ethers';
 import { transaction } from '~/stores/transaction';
 import { findNetworkByChainId } from '~/components/NetworkSwitcherModal/networks';
+import type { RegistryRow } from "~/components/RegistryTableByWallet/types";
+import { getContractLevelDelegations, getDelegatesForAll, getTokenLevelDelegations } from 'delegatecash';
 
 Object.defineProperty(String.prototype, 'capitalize', {
   value: function () {
@@ -117,3 +119,39 @@ export let submitTransaction = async (
     transaction.setModal(false);
   }
 };
+
+export const getDelegations = async (wallet) => {
+  try {
+
+    const delegations: RegistryRow[] = [];
+
+    const [delegatesForAll, contractLevelDelegations, delegatesForContract] = await Promise.all([
+      await getDelegatesForAll(wallet),
+      await getContractLevelDelegations(wallet),
+      await getTokenLevelDelegations(wallet),
+    ]);
+
+    delegatesForAll.forEach(delegate => {
+      delegations.push({ type: 'ALL', delegate });
+    });
+
+    contractLevelDelegations.forEach(item => {
+      delegations.push({ type: 'CONTRACT', delegate: item.delegate, contract: item.contract });
+    });
+
+    delegatesForContract.forEach(item => {
+      delegations.push({
+        type: 'TOKEN',
+        delegate: item.delegate,
+        contract: item.contract,
+        tokenId: item.tokenId,
+      });
+    });
+
+    return delegations;
+  }
+  catch(err) {
+    console.log(err);
+    return [];
+  }
+}
