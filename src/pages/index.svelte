@@ -15,7 +15,7 @@
       case 0:
         return {
           description:
-            'Entrust a wallet (eg. your hot wallet) to prove ownership on your behalf for any contract.',
+            'Entrust a throwaway burner wallet (eg. your hot wallet) to prove ownership on your behalf for any contract.',
         };
       case 1:
         return {
@@ -135,7 +135,7 @@
         {#if $wallet.isConnected}
           Submit Delegation
         {:else}
-          Connect wallet first
+          Connect your vault, like a Ledger, first
         {/if}
       </Button>
     </div>
