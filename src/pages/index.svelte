@@ -111,7 +111,7 @@
     <NoticeContainer>{noticeContainerInfo.description}</NoticeContainer>
     <TextInput
       bind:value={delegateInput}
-      id="delegateInput"
+      id="delegate"
       label="Delegate Wallet"
       placeholder="Example: Your hot wallet"
     />
