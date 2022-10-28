@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+  import { params } from '@roxi/routify';
   import { wallet } from '~/stores/wallet';
   import { delegateForAll, delegateForContract, delegateForToken } from 'delegatecash';
   import { submitTransaction } from '~/utils';
@@ -29,26 +31,42 @@
     }
   })();
 
-  $: delegate = '';
-  $: contract = '';
-  $: tokenId = '';
+  $: delegateInput = '';
+  $: contractInput = '';
+  $: tokenIdInput = '';
   $: isFormValid = (() => {
     switch (optionValue) {
       case 0:
-        return delegate.length === 42;
+        return delegateInput.length === 42;
       case 1:
-        return delegate.length === 42 && contract.length === 42;
+        return delegateInput.length === 42 && contractInput.length === 42;
       case 2:
-        return delegate.length === 42 && contract.length === 42 && tokenId.length > 0;
+        return (
+          delegateInput.length === 42 && contractInput.length === 42 && tokenIdInput.length > 0
+        );
       default:
         return false;
     }
   })();
 
+  onMount(() => {
+    const { delegate, contract, tokenId } = $params;
+
+    delegateInput = delegate || '';
+    contractInput = contract || '';
+    tokenIdInput = tokenId || '';
+
+    if (contract && tokenId) {
+      optionValue = 2;
+    } else if (contract) {
+      optionValue = 1;
+    }
+  });
+
   const onHorizontalPickerChange = e => {
     const newValue = e.detail;
-    if (newValue < 2) tokenId = '';
-    if (newValue == 0) contract = '';
+    if (newValue < 2) tokenIdInput = '';
+    if (newValue == 0) contractInput = '';
     optionValue = newValue;
   };
 
@@ -57,23 +75,23 @@
       switch (optionValue) {
         case 0:
           submitTransaction('Delegating wallet', 'Wallet delegated', delegateForAll, [
-            delegate,
+            delegateInput,
             true,
           ]);
           break;
         case 1:
           submitTransaction('Delegating contract', 'Contract delegated', delegateForContract, [
-            delegate,
-            contract,
+            delegateInput,
+            contractInput,
             true,
           ]);
           break;
         case 2:
           submitTransaction(
-            `Delegating NFT #${tokenId}`,
-            `NFT#${tokenId} delegated`,
+            `Delegating NFT #${tokenIdInput}`,
+            `NFT#${tokenIdInput} delegated`,
             delegateForToken,
-            [delegate, contract, tokenId, true],
+            [delegateInput, contractInput, tokenIdInput, true],
           );
           break;
       }
@@ -92,14 +110,14 @@
     />
     <NoticeContainer>{noticeContainerInfo.description}</NoticeContainer>
     <TextInput
-      bind:value={delegate}
-      id="delegate"
+      bind:value={delegateInput}
+      id="delegateInput"
       label="Delegate Wallet"
       placeholder="Example: Your hot wallet"
     />
     {#if optionValue == 1}
       <TextInput
-        bind:value={contract}
+        bind:value={contractInput}
         id="contract"
         label="Contract"
         placeholder="Example: ERC20 token address"
@@ -109,7 +127,7 @@
       <div class="float-right w-24">
         <TextInput
           type="number"
-          bind:value={tokenId}
+          bind:value={tokenIdInput}
           id="tokenid"
           label="Token ID"
           placeholder="#"
@@ -117,7 +135,7 @@
       </div>
       <div class="pr-3 overflow-hidden">
         <TextInput
-          bind:value={contract}
+          bind:value={contractInput}
           id="contract"
           label="Contract"
           placeholder="Address of NFT project"
