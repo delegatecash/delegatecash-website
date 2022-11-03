@@ -23,6 +23,3 @@ dist-ssr
 *.sln
 *.sw?
 .routify
-
-# not finished
-SearchBar.svelte
