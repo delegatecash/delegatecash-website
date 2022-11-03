@@ -15,7 +15,7 @@ export default function disableClick(node: HTMLElement, disabled: boolean) {
   node.addEventListener('click', handleClick);
 
   return {
-    update(newDisabled) {
+    update(newDisabled: boolean) {
       disabled = newDisabled;
     },
     destroy() {

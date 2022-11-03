@@ -1,6 +1,6 @@
 <script lang="ts">
   import { wallet } from '~/stores/wallet';
-  import { revokeSelf, revokeDelegate } from 'delegatecash';
+  import { delegatecash } from '~/stores/delegatecash';
   import { submitTransaction } from '~/utils';
   import Card from '~/design-system/Card.svelte';
   import TextInput from '~/design-system/inputs/TextInput.svelte';
@@ -47,10 +47,12 @@
     try {
       switch (optionValue) {
         case 0:
-          submitTransaction('Revoking vault', 'Vault revoked', revokeSelf, [vault]);
+          submitTransaction('Revoking vault', 'Vault revoked', $delegatecash.revokeSelf, [vault]);
           break;
         case 1:
-          submitTransaction('Revoking delegate', 'Delegate revoked', revokeDelegate, [delegate]);
+          submitTransaction('Revoking delegate', 'Delegate revoked', $delegatecash.revokeDelegate, [
+            delegate,
+          ]);
           break;
       }
     } catch (err) {

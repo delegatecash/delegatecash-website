@@ -1,26 +1,23 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount } from 'svelte';
-  import { getProvider } from 'delegatecash/utils';
+  import { createEventDispatcher } from 'svelte';
+  import { ethers } from 'ethers';
   import { networks } from './networks';
-  import { switchNetwork } from '~/utils';
+  import { wallet } from '~/stores/wallet';
   import BlurContainer from '~/design-system/BlurContainer.svelte';
   import Switch from '~/design-system/inputs/Switch.svelte';
   import Icon from '~/design-system/icon/Icon.svelte';
+  import onboard from '~/onboard';
 
   const dispatch = createEventDispatcher();
 
-  $: currentNetwork = null;
   $: filteredNetworks = networks.filter(network => network.testnet === showTestNetworks);
   $: showTestNetworks =
-    networks.find(network => currentNetwork?.chainId == network.chainId)?.testnet || false;
+    networks.find(network => $wallet.currentChainId == network.chainId)?.testnet || false;
 
   const changeNetwork = async network => {
-    await switchNetwork(network);
+    dispatch('close');
+    await onboard.setChain({ chainId: ethers.utils.hexValue(network.chainId) });
   };
-
-  onMount(async () => {
-    currentNetwork = await getProvider().getNetwork();
-  });
 </script>
 
 <BlurContainer on:click={() => dispatch('close')}>
@@ -33,11 +30,11 @@
       {#each filteredNetworks as network}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <li
-          class:opacity-60={currentNetwork?.chainId === network.chainId}
+          class:opacity-60={$wallet.currentChainId === network.chainId}
           on:click={() => changeNetwork(network)}
         >
           {network.chainName}
-          {#if currentNetwork?.chainId === network.chainId}<span>(Active)</span>{/if}
+          {#if $wallet.currentChainId === network.chainId}<span>(Active)</span>{/if}
         </li>
       {/each}
     </ul>

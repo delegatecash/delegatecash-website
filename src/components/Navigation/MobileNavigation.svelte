@@ -1,6 +1,5 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import Button from '~/design-system/Button.svelte';
   import Icon from '~/design-system/icon/Icon.svelte';
   import ConnectWalletButton from '../ConnectWalletButton.svelte';
   import NavLinks from './NavLinks.svelte';

@@ -4,6 +4,7 @@ function createWalletStore() {
   const defaultObj = {
     isConnected: false,
     currentWallet: null,
+    currentChainId: null,
     showNetworkSwitcher: false,
   };
 
@@ -11,14 +12,17 @@ function createWalletStore() {
 
   return {
     subscribe,
-    setConnectionStatus: (isConnected, currentWallet) =>
-      update(obj => {
+    setConnectionStatus: (isConnected, currentWallet, currentChainId) => {
+
+      return update(obj => {
         return {
           ...obj,
           isConnected,
-          currentWallet,
+          currentWallet: currentWallet?.toLowerCase(),
+          currentChainId
         };
-      }),
+      });
+    },
     setNetworkSwitcher: (showNetworkSwitcher: boolean) =>
       update(obj => {
         return {

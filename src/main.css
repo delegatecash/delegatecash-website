@@ -17,3 +17,26 @@ body {
     margin: 0;
   }
 }
+
+:root {
+  --background-color: #ffffff; 
+  --text-color: #1a1d26; 
+  --border-color: #ebebed; 
+  --accent-background: #ebebed; 
+  --accent-color: #4ca6fb; 
+  --accent-color-hover: #eff1fc; 
+  --secondary-text-color: #d5d7dd; 
+  --onboard-connect-sidebar-background: var(--accent-background);
+  --onboard-close-button-background: var(--accent-background);
+  --onboard-connect-sidebar-color: var(--text-color);
+  --onboard-connect-sidebar-progress-background: var(--secondary-text-color);
+  --onboard-connect-sidebar-progress-color: var(--accent-color);
+  --onboard-connect-header-background: var(--background-color);
+  --onboard-connect-header-color: var(--text-color);
+  --onboard-main-scroll-container-background: var(--background-color);
+  --onboard-link-color: var(--accent-color);
+  --onboard-wallet-button-background: var(--background-color);
+  --onboard-wallet-button-background-hover: var(--accent-color-hover);
+  --onboard-wallet-button-border-color: var(--border-color);
+  --onboard-wallet-app-icon-border-color: var(--border-color);
+}

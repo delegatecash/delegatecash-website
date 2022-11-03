@@ -11,7 +11,7 @@ export const networks: NetworkType[] = [
   {
     chainName: 'Ethereum',
     chainId: 1,
-    rpcUrls: ['https://mainnet.infura.io/v3/'],
+    rpcUrls: ['https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'],
     nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
     testnet: false,
     explorerUrl: 'https://etherscan.io',
@@ -19,7 +19,7 @@ export const networks: NetworkType[] = [
   {
     chainName: 'Goerli',
     chainId: 5,
-    rpcUrls: ['https://goerli.infura.io/v3/'],
+    rpcUrls: ['https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'],
     nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
     testnet: true,
     explorerUrl: 'https://goerli.etherscan.io',
@@ -58,6 +58,6 @@ export const networks: NetworkType[] = [
   },
 ];
 
-export const findNetworkByChainId = chainId => {
+export const findNetworkByChainId = (chainId: number) => {
   return networks.find(network => network.chainId == chainId);
 };
