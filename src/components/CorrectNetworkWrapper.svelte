@@ -1,14 +1,12 @@
 <script>
-  import { getDelegatesForAll } from 'delegatecash';
-  import { onMount } from 'svelte';
+  import { delegatecash } from '~/stores/delegatecash';
   import { wallet } from '~/stores/wallet';
 
   $: error = null;
 
-  onMount(async () => {
+  delegatecash.subscribe(async dc => {
     try {
-      const test = await getDelegatesForAll('0x0000000000000000000000000000000000000001');
-      if (test) networkFound = true;
+      error = await dc.getDelegatesForAll('0x0000000000000000000000000000000000000001');
     } catch (err) {
       if (err.message.includes('revert')) error = 'network_not_supported';
       else error = 'browser_not_supported';

@@ -1,13 +1,15 @@
 <script lang="ts">
-  import { delegateForAll, delegateForContract, delegateForToken } from 'delegatecash';
-  import { isConnected, getCurrentWallet, submitTransaction, getDelegations } from '~/utils';
+  import { onMount } from 'svelte';
+  import { params } from '@roxi/routify';
+  import { submitTransaction, getDelegations } from '~/utils';
+  import { wallet } from '~/stores/wallet';
+  import { delegatecash } from '~/stores/delegatecash';
   import Card from '~/design-system/Card.svelte';
   import TextInput from '~/design-system/inputs/TextInput.svelte';
   import HorizontalPicker from '~/design-system/HorizontalPicker.svelte';
   import NoticeContainer from '~/design-system/NoticeContainer.svelte';
   import Button from '~/design-system/Button.svelte';
   import RegistryTableByWallet from '~/components/RegistryTableByWallet/RegistryTableByWallet.svelte';
-  import { onMount } from 'svelte';
 
   $: optionValue = 0;
 
@@ -30,23 +32,24 @@
     }
   })();
 
-  $: connected = false;
   $: loading = true;
-  $: wallet = null;
   $: delegations = [];
 
-  $: delegate = '';
-  $: contract = '';
-  $: tokenId = '';
+  $: delegateInput = '';
+  $: contractInput = '';
+  $: tokenIdInput = '';
 
   $: isFormValid = (() => {
+    if (delegateInput.toLocaleLowerCase() === $wallet.currentWallet) return false;
     switch (optionValue) {
       case 0:
-        return delegate.length === 42;
+        return delegateInput.length === 42;
       case 1:
-        return delegate.length === 42 && contract.length === 42;
+        return delegateInput.length === 42 && contractInput.length === 42;
       case 2:
-        return delegate.length === 42 && contract.length === 42 && tokenId.length > 0;
+        return (
+          delegateInput.length === 42 && contractInput.length === 42 && tokenIdInput.length > 0
+        );
       default:
         return false;
     }
@@ -54,8 +57,8 @@
 
   const onHorizontalPickerChange = e => {
     const newValue = e.detail;
-    if (newValue < 2) tokenId = '';
-    if (newValue == 0) contract = '';
+    if (newValue < 2) tokenIdInput = '';
+    if (newValue == 0) contractInput = '';
     optionValue = newValue;
   };
 
@@ -63,24 +66,25 @@
     try {
       switch (optionValue) {
         case 0:
-          submitTransaction('Delegating wallet', 'Wallet delegated', delegateForAll, [
-            delegate,
+          submitTransaction('Delegating wallet', 'Wallet delegated', $delegatecash.delegateForAll, [
+            delegateInput,
             true,
           ]);
           break;
         case 1:
-          submitTransaction('Delegating contract', 'Contract delegated', delegateForContract, [
-            delegate,
-            contract,
-            true,
-          ]);
+          submitTransaction(
+            'Delegating contract',
+            'Contract delegated',
+            $delegatecash.delegateForContract,
+            [delegateInput, contractInput, true],
+          );
           break;
         case 2:
           submitTransaction(
-            `Delegating NFT #${tokenId}`,
-            `NFT#${tokenId} delegated`,
-            delegateForToken,
-            [delegate, contract, tokenId, true],
+            `Delegating NFT #${tokenIdInput}`,
+            `NFT #${tokenIdInput} delegated`,
+            $delegatecash.delegateForToken,
+            [delegateInput, contractInput, tokenIdInput, true],
           );
           break;
       }
@@ -89,12 +93,24 @@
     }
   };
 
-  onMount(async () => {
-    connected = await isConnected();
-    if (connected) {
-      wallet = await getCurrentWallet();
-      delegations = await getDelegations(wallet);
+  wallet.subscribe(async walletStore => {
+    if (walletStore.isConnected) {
+      delegations = await getDelegations(walletStore.currentWallet);
       loading = false;
+    }
+  });
+
+  onMount(() => {
+    const { delegate, contract, tokenId } = $params;
+
+    delegateInput = delegate || '';
+    contractInput = contract || '';
+    tokenIdInput = tokenId || '';
+
+    if (contract && tokenId) {
+      optionValue = 2;
+    } else if (contract) {
+      optionValue = 1;
     }
   });
 </script>
@@ -111,14 +127,14 @@
     />
     <NoticeContainer>{noticeContainerInfo.description}</NoticeContainer>
     <TextInput
-      bind:value={delegate}
+      bind:value={delegateInput}
       id="delegate"
       label="Delegate Wallet"
       placeholder="Example: Your hot wallet"
     />
     {#if optionValue == 1}
       <TextInput
-        bind:value={contract}
+        bind:value={contractInput}
         id="contract"
         label="Contract"
         placeholder="Example: ERC20 token address"
@@ -128,7 +144,7 @@
       <div class="float-right w-24">
         <TextInput
           type="number"
-          bind:value={tokenId}
+          bind:value={tokenIdInput}
           id="tokenid"
           label="Token ID"
           placeholder="#"
@@ -136,7 +152,7 @@
       </div>
       <div class="pr-3 overflow-hidden">
         <TextInput
-          bind:value={contract}
+          bind:value={contractInput}
           id="contract"
           label="Contract"
           placeholder="Address of NFT project"
@@ -148,10 +164,10 @@
       <Button
         size="md"
         isFullWidth
-        disabled={!isConnected || !isFormValid}
+        disabled={!$wallet.isConnected || !isFormValid}
         on:click={() => submitDelegation()}
       >
-        {#if isConnected}
+        {#if $wallet.isConnected}
           Submit Delegation
         {:else}
           Connect your vault, like a Ledger, first
@@ -165,7 +181,9 @@
   <RegistryTableByWallet {loading} data={delegations} showRevoke={false} />
 {/if}
 
-<a class:disabled={!isConnected} href="/{wallet || ''}"> Need to revoke delegations? </a>
+<a class:disabled={!$wallet.isConnected} href="/{$wallet.currentWallet || ''}">
+  Need to revoke delegations?
+</a>
 
 <style lang="postcss">
   a {

@@ -1,9 +1,10 @@
-import { getProvider } from 'delegatecash/utils';
-import { ethers } from 'ethers';
+import { get } from 'svelte/store';
 import { transaction } from '~/stores/transaction';
+import { wallet } from '~/stores/wallet';
 import { findNetworkByChainId } from '~/components/NetworkSwitcherModal/networks';
 import type { RegistryRow } from "~/components/RegistryTableByWallet/types";
-import { getContractLevelDelegations, getDelegatesForAll, getTokenLevelDelegations } from 'delegatecash';
+import { delegatecash } from './stores/delegatecash';
+import onboard from "~/onboard";
 
 Object.defineProperty(String.prototype, 'capitalize', {
   value: function () {
@@ -22,18 +23,13 @@ export const truncateWallet = (wallet, left = 8, right = 8) => {
   return wallet.substr(0, left) + '...' + wallet.substr(wallet.length - right);
 };
 
-export const connectWallet = async () => {
-  try {
-    return await ethereum.request({ method: 'eth_requestAccounts' });
-  } catch {
-    return;
-  }
-};
-
 export const getWallets = async () => {
   try {
-    return await ethereum.request({ method: 'eth_accounts' });
-  } catch {
+    const currentState = onboard.state.get();
+    const wallets = currentState.wallets;
+    return wallets.map(wallet => wallet.accounts[0].address);
+  } 
+  catch {
     return [];
   }
 };
@@ -56,43 +52,6 @@ export const isConnected = async () => {
   }
 };
 
-export const getEnsName = async address => {
-  try {
-    return await getProvider().lookupAddress(address);
-  } catch {
-    return null;
-  }
-};
-
-export const switchNetwork = async params => {
-  try {
-    await ethereum.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: ethers.utils.hexValue(params.chainId) }],
-    });
-  } catch (switchError) {
-    // This error code indicates that the chain has not been added to MetaMask.
-    if (switchError.code === 4902) {
-      try {
-        params.chainId = ethers.utils.hexValue(params.chainId);
-        delete params.testnet;
-        delete params.explorerUrl;
-
-        await ethereum.request({
-          method: 'wallet_addEthereumChain',
-          params: [params],
-        });
-      } catch (addError) {
-        // handle "add" error
-        return;
-      }
-    }
-
-    // handle other "switch" errors
-    return;
-  }
-};
-
 export let submitTransaction = async (
   pendingMessage: string,
   recieptMessage: string,
@@ -103,13 +62,13 @@ export let submitTransaction = async (
     transaction.reset();
     transaction.setModal(true);
     transaction.setMessage(pendingMessage);
-
-    const pendingTransaction = await func.apply(this, parameters);
-    getProvider()
+    
+    const [dc, walletStore, pendingTransaction] = await Promise.all([await get(delegatecash), await get(wallet), await func.apply(this, parameters)]);
+    
+    dc.provider
       .waitForTransaction(pendingTransaction.hash, 1, 150000)
       .then(async reciept => {
-        const currentNetwork = await getProvider().getNetwork();
-        const explorerUrl = findNetworkByChainId(currentNetwork?.chainId).explorerUrl;
+        const explorerUrl = findNetworkByChainId(walletStore.currentChainId).explorerUrl;
         transaction.setTitle('Transaction Complete');
         transaction.setMessage(recieptMessage);
         transaction.setTransactionUrl(`${explorerUrl}/tx/${reciept.transactionHash}`);
@@ -123,12 +82,13 @@ export let submitTransaction = async (
 export const getDelegations = async (wallet) => {
   try {
 
+    const dc = await get(delegatecash);    
     const delegations: RegistryRow[] = [];
 
     const [delegatesForAll, contractLevelDelegations, delegatesForContract] = await Promise.all([
-      await getDelegatesForAll(wallet),
-      await getContractLevelDelegations(wallet),
-      await getTokenLevelDelegations(wallet),
+      await dc.getDelegatesForAll(wallet),
+      await dc.getContractLevelDelegations(wallet),
+      await dc.getTokenLevelDelegations(wallet),
     ]);
 
     delegatesForAll.forEach(delegate => {
@@ -155,3 +115,19 @@ export const getDelegations = async (wallet) => {
     return [];
   }
 }
+
+export const clickOutsideHandler = node => {
+  const handleClick = event => {
+    if (node && !node.contains(event.target) && !event.defaultPrevented) {
+      node.dispatchEvent(new CustomEvent('clickOutside', node));
+    }
+  };
+
+  document.addEventListener('click', handleClick, true);
+
+  return {
+    destroy() {
+      document.removeEventListener('click', handleClick, true);
+    },
+  };
+};

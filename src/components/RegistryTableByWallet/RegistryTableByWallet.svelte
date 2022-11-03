@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount } from 'svelte';
+  import { createEventDispatcher } from 'svelte';
   import { truncateWallet } from '../../utils';
   import Table from '~/design-system/Table/Table.svelte';
   import TableRow from '~/design-system/Table/TableRow.svelte';
