@@ -1,4 +1,4 @@
-interface NetworkType {
+export interface NetworkType {
   chainName: string;
   chainId: number;
   rpcUrls: string[];
@@ -39,6 +39,22 @@ export const networks: NetworkType[] = [
     nativeCurrency: { name: 'tMATIC', symbol: 'tMATIC', decimals: 18 },
     testnet: true,
     explorerUrl: 'https://mumbai.polygonscan.com',
+  },
+  {
+    chainName: 'Optimism',
+    chainId: 10,
+    rpcUrls: ['https://mainnet.optimism.io'],
+    nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
+    testnet: false,
+    explorerUrl: 'https://optimistic.etherscan.io',
+  },
+  {
+    chainName: 'Optimism (Goerli)',
+    chainId: 420,
+    rpcUrls: ['https://goerli.optimism.io'],
+    nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
+    testnet: true,
+    explorerUrl: 'https://goerli-optimism.etherscan.io',
   },
   {
     chainName: 'Celo',

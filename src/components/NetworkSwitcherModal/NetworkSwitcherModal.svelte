@@ -7,6 +7,7 @@
   import Switch from '~/design-system/inputs/Switch.svelte';
   import Icon from '~/design-system/icon/Icon.svelte';
   import onboard from '~/onboard';
+  import type { NetworkType } from './networks';
 
   const dispatch = createEventDispatcher();
 
@@ -14,7 +15,7 @@
   $: showTestNetworks =
     networks.find(network => $wallet.currentChainId == network.chainId)?.testnet || false;
 
-  const changeNetwork = async network => {
+  const changeNetwork = async (network: NetworkType) => {
     dispatch('close');
     await onboard.setChain({ chainId: ethers.utils.hexValue(network.chainId) });
   };
@@ -60,7 +61,7 @@
     }
   }
   section {
-    @apply fixed text-left top-2 right-2 w-56 bg-white rounded-lg shadow-lg p-6 font-semibold text-slate-900;
+    @apply fixed text-left top-2 right-2 w-64 bg-white rounded-lg shadow-lg p-6 font-semibold text-slate-900;
   }
 
   button {
