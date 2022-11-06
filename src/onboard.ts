@@ -1,8 +1,14 @@
 import Onboard from '@web3-onboard/core';
+import type { InitOptions } from "@web3-onboard/core"
+
 import walletConnectModule from '@web3-onboard/walletconnect';
 import injectedModule from '@web3-onboard/injected-wallets';
 import { networks } from '~/components/NetworkSwitcherModal/networks';
 import eni18n from "@web3-onboard/core/dist/i18n/en.json";
+import Buffer from "buffer";
+
+(window as any).global = globalThis;
+global.Buffer = Buffer.Buffer;
 
 const injected = injectedModule();
 
@@ -14,7 +20,8 @@ const walletConnect = walletConnectModule({
   connectFirstChainId: true,
 });
 
-const appMetadata = {
+
+const appMetadata: InitOptions['appMetadata'] = {
   name: 'delegate.cash',
   icon: '/images/logo.svg',
   logo: '/images/logo.svg',
