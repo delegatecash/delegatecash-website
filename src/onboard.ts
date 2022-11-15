@@ -23,8 +23,8 @@ const walletConnect = walletConnectModule({
 
 const appMetadata: InitOptions['appMetadata'] = {
   name: 'delegate.cash',
-  icon: '/images/logo.svg',
-  logo: '/images/logo.svg',
+  icon: '/images/greenYellowLogo.png',
+  logo: '/images/greenYellowLogo.png',
   description: 'My app using Onboard',
   recommendedInjectedWallets: [
     { name: 'Coinbase', url: 'https://wallet.coinbase.com/' },

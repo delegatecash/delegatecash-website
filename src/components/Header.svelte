@@ -6,7 +6,7 @@
 <header id="header">
   <a href="/">
     <!-- <Logo /> -->
-    <img src="/images/green.svg" style="width:30px;" />
+    <img src="/images/greenYellowLogo.png" style="width:30px;" />
   </a>
   <Navigation />
 </header>
