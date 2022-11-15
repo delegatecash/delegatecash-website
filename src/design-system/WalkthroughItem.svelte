@@ -17,13 +17,12 @@
       const findTarget: HTMLElement = document.getElementById(target);
       const targetInfo: DOMRect = JSON.parse(JSON.stringify(findTarget.getClientRects()))[0];
 
-      //console.log(document.body.clientWidth, document.body.clientWidth - width);
-
       // Assign item width first because it determins the item height
       item.style.maxWidth = (width || targetInfo?.width).toString() + 'px';
       item.style.right = (document.body.clientWidth - targetInfo?.right).toString() + 'px';
 
       if (position === 'top') {
+        item.style.width = targetInfo.width.toString() + 'px';
         item.style.top = (targetInfo?.top - item.offsetHeight - 10).toString() + 'px';
       } else if (position === 'bottom') {
         item.style.top = (targetInfo?.top + targetInfo?.height + 5).toString() + 'px';
