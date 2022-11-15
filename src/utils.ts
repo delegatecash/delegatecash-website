@@ -119,7 +119,7 @@ export const getDelegations = async (wallet) => {
 export const clickOutsideHandler = node => {
   const handleClick = event => {
     if (node && !node.contains(event.target) && !event.defaultPrevented) {
-      node.dispatchEvent(new CustomEvent('clickOutside', node));
+      node.dispatchEvent(new CustomEvent('clickOutside', { detail: event.target }));
     }
   };
 

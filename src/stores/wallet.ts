@@ -3,9 +3,8 @@ import { writable } from 'svelte/store';
 function createWalletStore() {
   const defaultObj = {
     isConnected: false,
-    currentWallet: null,
-    currentChainId: null,
-    showNetworkSwitcher: false,
+    currentWallet: null as string,
+    currentChainId: null as number,
   };
 
   const { subscribe, set, update } = writable(defaultObj);
@@ -13,7 +12,6 @@ function createWalletStore() {
   return {
     subscribe,
     setConnectionStatus: (isConnected, currentWallet, currentChainId) => {
-
       return update(obj => {
         return {
           ...obj,
@@ -23,13 +21,6 @@ function createWalletStore() {
         };
       });
     },
-    setNetworkSwitcher: (showNetworkSwitcher: boolean) =>
-      update(obj => {
-        return {
-          ...obj,
-          showNetworkSwitcher,
-        };
-      }),
     reset: () => set(defaultObj),
   };
 }

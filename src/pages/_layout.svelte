@@ -1,10 +1,11 @@
 <script>
-  import { wallet } from '~/stores/wallet';
+  import { modals } from '~/stores/modals';
   import { transaction } from '~/stores/transaction';
   import Header from '~/components/Header.svelte';
   import TransactionModal from '~/components/TransactionModal.svelte';
   import NetworkSwitcherModal from '~/components/NetworkSwitcherModal/NetworkSwitcherModal.svelte';
   import CorrectNetworkWrapper from '~/components/CorrectNetworkWrapper.svelte';
+  import { initialWalkthrough } from '~/stores/initialWalkthrough';
 </script>
 
 <Header />
@@ -29,6 +30,6 @@
   />
 {/if}
 
-{#if $wallet.showNetworkSwitcher}
-  <NetworkSwitcherModal on:close={() => wallet.setNetworkSwitcher(false)} />
+{#if $modals.showNetworkSwitcher}
+  <NetworkSwitcherModal on:close={() => modals.setNetworkSwitcher(false)} />
 {/if}

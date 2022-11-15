@@ -21,7 +21,7 @@
   };
 </script>
 
-<BlurContainer on:click={() => dispatch('close')}>
+<BlurContainer zIndex={31} on:click={() => dispatch('close')}>
   <section>
     <button class="hover:text-slate-600" on:click={() => dispatch('close')}>
       <Icon name="x" />
@@ -65,6 +65,6 @@
   }
 
   button {
-    @apply absolute top-8 right-5 w-3 h-3 flex items-center justify-center text-slate-500;
+    @apply fixed top-8 right-5 w-3 h-3 flex items-center justify-center text-slate-500;
   }
 </style>

@@ -4,12 +4,14 @@
   import { submitTransaction, getDelegations } from '~/utils';
   import { wallet } from '~/stores/wallet';
   import { delegatecash } from '~/stores/delegatecash';
+  import { initialWalkthrough } from '~/stores/initialWalkthrough';
   import Card from '~/design-system/Card.svelte';
   import TextInput from '~/design-system/inputs/TextInput.svelte';
   import HorizontalPicker from '~/design-system/HorizontalPicker.svelte';
   import NoticeContainer from '~/design-system/NoticeContainer.svelte';
   import Button from '~/design-system/Button.svelte';
   import RegistryTableByWallet from '~/components/RegistryTableByWallet/RegistryTableByWallet.svelte';
+  import InitialWalkthrough from '~/components/InitialWalkthrough/InitialWalkthrough.svelte';
 
   $: optionValue = 0;
 
@@ -100,8 +102,15 @@
     }
   });
 
+  // Change the tab so it forces the user to interact with it
+  initialWalkthrough.subscribe(initialWalkthroughStore => {
+    if (initialWalkthroughStore.activeItem === 3) {
+      optionValue = 1;
+    }
+  });
+
   onMount(() => {
-    const { delegate, contract, tokenId } = $params;
+    const { delegate, contract, tokenId, walkthrough } = $params;
 
     delegateInput = delegate || '';
     contractInput = contract || '';
@@ -112,10 +121,18 @@
     } else if (contract) {
       optionValue = 1;
     }
+
+    //
+    if (typeof walkthrough !== 'undefined') {
+      initialWalkthrough.turnOn();
+    }
   });
 </script>
 
+<InitialWalkthrough {optionValue} {isFormValid} />
+
 <div
+  id="main_widget_container"
   class="text-center w-full md:max-w-lg lg:w-1/2 md:w-4/6 m-auto"
   class:mb-10={delegations.length}
 >
@@ -132,6 +149,11 @@
       label="Delegate Wallet"
       placeholder="Example: Your hot wallet"
     />
+
+    {#if delegateInput.toLocaleLowerCase() === $wallet.currentWallet}
+      <p>The wallet is identical to your connected wallet.</p>
+    {/if}
+
     {#if optionValue == 1}
       <TextInput
         bind:value={contractInput}
@@ -165,7 +187,10 @@
         size="md"
         isFullWidth
         disabled={!$wallet.isConnected || !isFormValid}
-        on:click={() => submitDelegation()}
+        on:click={() => {
+          initialWalkthrough.reset();
+          submitDelegation();
+        }}
       >
         {#if $wallet.isConnected}
           Submit Delegation
@@ -198,5 +223,9 @@
 
   a:hover {
     color: #333;
+  }
+
+  p {
+    @apply text-red-500 text-xs mt-1 ml-2;
   }
 </style>

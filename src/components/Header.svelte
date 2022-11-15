@@ -3,9 +3,10 @@
   import Navigation from './Navigation/Navigation.svelte';
 </script>
 
-<header>
+<header id="header">
   <a href="/">
-    <Logo />
+    <!-- <Logo /> -->
+    <img src="/images/greenYellowLogo.png" style="width:30px;" />
   </a>
   <Navigation />
 </header>

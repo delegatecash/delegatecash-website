@@ -1,6 +1,7 @@
 <script lang="ts">
   import disableClick from './actions/disableClick';
 
+  export let id = '';
   export let type: 'button' | 'submit' | 'reset' = 'button';
   export let action: 'primary' | 'destructive' = 'primary';
   export let size: 'sm' | 'md' = 'sm';
@@ -12,11 +13,11 @@
 </script>
 
 {#if href}
-  <a class={elClass} {href} {disabled} use:disableClick={disabled} on:click>
+  <a {id} class={elClass} {href} {disabled} use:disableClick={disabled} on:click>
     <slot />
   </a>
 {:else}
-  <button class={elClass} {type} {disabled} on:click>
+  <button {id} class={elClass} {type} {disabled} on:click>
     <slot />
   </button>
 {/if}

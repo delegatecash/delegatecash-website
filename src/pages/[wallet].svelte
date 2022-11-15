@@ -9,7 +9,10 @@
   import Revoke from './revoke.svelte';
 
   $: loading = true;
-  $: walletParam = $params.wallet.toLowerCase();
+
+  let walletParam: string;
+  $: walletParam = $params?.wallet?.toLowerCase();
+
   $: delegations = [];
 
   wallet.subscribe(async walletStore => {

@@ -1,12 +1,15 @@
-<script>
+<script lang="ts">
   import { delegatecash } from '~/stores/delegatecash';
   import { wallet } from '~/stores/wallet';
+  import { modals } from '~/stores/modals';
 
-  $: error = null;
+  let error: string;
+  $: error;
 
   delegatecash.subscribe(async dc => {
     try {
-      error = await dc.getDelegatesForAll('0x0000000000000000000000000000000000000001');
+      await dc.getDelegatesForAll('0x0000000000000000000000000000000000000001');
+      error = null;
     } catch (err) {
       if (err.message.includes('revert')) error = 'network_not_supported';
       else error = 'browser_not_supported';
@@ -14,13 +17,13 @@
   });
 </script>
 
-{#if error === null}
+{#if error === undefined}
   &nbsp;
 {:else if !$wallet.isConnected || error !== 'network_not_supported'}
   <slot />
 {:else}
   <p class="font-bold">This network is not yet supported.</p>
-  <button on:click={() => wallet.setNetworkSwitcher(true)}>
+  <button on:click={() => modals.setNetworkSwitcher(true)}>
     Click here to choose a compatable network
   </button>
 {/if}

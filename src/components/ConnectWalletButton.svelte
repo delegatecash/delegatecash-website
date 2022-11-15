@@ -1,23 +1,25 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher, onMount } from 'svelte';
   import { findNetworkByChainId } from '~/components/NetworkSwitcherModal/networks';
   import { wallet } from '~/stores/wallet';
+  import { modals } from '~/stores/modals';
   import { delegatecash } from '~/stores/delegatecash';
   import { truncateWallet } from '~/utils';
-  import { ethers, logger } from 'ethers';
+  import { ethers } from 'ethers';
   import onboard from '~/onboard';
   import Button from '~/design-system/Button.svelte';
   import WalletOptionDropdown from '~/components/Navigation/WalletOptionDropdown.svelte';
+  import type { AppState } from '@web3-onboard/core';
 
   const dispatch = createEventDispatcher();
 
+  let wallets: AppState['wallets'];
   $: wallets = [];
+
   $: primaryWallet = null;
   $: ensName = null;
   $: currentChainId = null;
   $: foundNetwork = findNetworkByChainId(currentChainId);
-
-  $: showWalletDropdown = false;
 
   onMount(async () => {
     const walletsSub = onboard.state.select('wallets');
@@ -57,7 +59,13 @@
 {#if $wallet.isConnected && $wallet.currentWallet}
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div>
-    <p title={$wallet.currentWallet} on:click={() => (showWalletDropdown = !showWalletDropdown)}>
+    <p
+      id="current_wallet"
+      title={$wallet.currentWallet}
+      on:click={() => {
+        modals.toggleWalletDropdown();
+      }}
+    >
       {#if ensName}
         {ensName}
       {:else}
@@ -72,33 +80,33 @@
       {/if}
     </span>
 
-    {#if showWalletDropdown}
+    {#if $modals.showWalletDropdown}
       <WalletOptionDropdown
         {wallets}
         on:connectWallet={() => {
-          showWalletDropdown = false;
+          modals.setWalletDropdown(false);
           onboard.connectWallet();
         }}
         on:walletClick={event => {
-          showWalletDropdown = false;
+          modals.setWalletDropdown(false);
           onboard.state.actions.setPrimaryWallet(wallets[event.detail]);
         }}
         on:networkChange={() => {
-          showWalletDropdown = false;
+          modals.setWalletDropdown(false);
           dispatch('networkChange');
         }}
         on:disconnectWallet={event => {
-          showWalletDropdown = false;
+          modals.setWalletDropdown(false);
           onboard.disconnectWallet({ label: event.detail.label });
         }}
         on:clickOutside={() => {
-          showWalletDropdown = false;
+          modals.setWalletDropdown(false);
         }}
       />
     {/if}
   </div>
 {:else}
-  <Button on:click={() => onboard.connectWallet()}>Connect Wallet</Button>
+  <Button id="connect_wallet" on:click={() => onboard.connectWallet()}>Connect Wallet</Button>
 {/if}
 
 <style lang="postcss">
@@ -109,7 +117,7 @@
     }
   }
   p {
-    @apply font-normal inline;
+    @apply font-normal inline-block;
     color: #094780;
   }
 
