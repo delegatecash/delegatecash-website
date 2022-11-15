@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { wallet } from '~/stores/wallet';
+  import { modals } from '~/stores/modals';
   import Icon from '~/design-system/icon/Icon.svelte';
   import BlurContainer from '~/design-system/BlurContainer.svelte';
   import ConnectWalletButton from '~/components/ConnectWalletButton.svelte';
@@ -11,7 +11,7 @@
 
 <nav>
   <a target="_BLANK" href="https://docs.delegate.cash">Documentation</a>
-  <ConnectWalletButton on:networkChange={() => wallet.setNetworkSwitcher(true)} />
+  <ConnectWalletButton on:networkChange={() => modals.setNetworkSwitcher(true)} />
   <button on:click={() => (showMobileNav = true)}><Icon name="ellipsis-vertical" /></button>
   <div>
     <NavLinks href="https://twitter.com/delegatecash">
@@ -32,7 +32,7 @@
       on:close={() => (showMobileNav = false)}
       on:walletClick={() => {
         showMobileNav = false;
-        wallet.setNetworkSwitcher(true);
+        modals.setNetworkSwitcher(true);
       }}
     />
   </BlurContainer>

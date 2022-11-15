@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let isFullWidth: boolean = false;
+  export let isFullWidth = false;
 </script>
 
 <td colspan={isFullWidth ? 5 : null}>

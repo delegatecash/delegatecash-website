@@ -5,7 +5,7 @@
   export let value: string;
   export let type: 'text' | 'number' = 'text';
 
-  const typeAction = node => {
+  const typeAction = (node: HTMLInputElement) => {
     node.type = type;
   };
 </script>

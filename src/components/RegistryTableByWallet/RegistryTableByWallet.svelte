@@ -19,7 +19,7 @@
 
   export let loading: boolean;
   export let data: RegistryRow[];
-  export let showRevoke: boolean = false;
+  export let showRevoke = false;
 
   $: columns = (() => {
     let cols = ['Delegate', 'Type', 'Contract', 'Token ID'];

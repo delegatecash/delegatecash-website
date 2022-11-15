@@ -50,6 +50,6 @@
   }
 
   button {
-    @apply absolute top-8 right-5 w-3 h-3 flex items-center justify-center text-slate-500;
+    @apply fixed top-8 right-5 w-3 h-3 flex items-center justify-center text-slate-500;
   }
 </style>

@@ -1,12 +1,21 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { truncateWallet, clickOutsideHandler } from '~/utils';
+  import type { AppState } from '@web3-onboard/core';
 
-  export let wallets = [];
+  export let wallets: AppState['wallets'] = [];
   const dispatch = createEventDispatcher();
 </script>
 
-<ul use:clickOutsideHandler on:clickOutside={() => dispatch('clickOutside')}>
+<ul
+  id="wallet_dropdown"
+  use:clickOutsideHandler
+  on:clickOutside={event => {
+    if (event.detail?.id !== 'current_wallet') {
+      dispatch('clickOutside');
+    }
+  }}
+>
   {#each wallets as wallet, index}
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <li class:active={index == 0} on:click={() => index !== 0 && dispatch('walletClick', index)}>
@@ -31,7 +40,7 @@
     background-color: #fff;
     width: 175px;
 
-    @apply z-50 absolute top-7 rounded shadow-lg border border-slate-200;
+    @apply z-50 fixed top-10 rounded shadow-lg border border-slate-200;
 
     li {
       @apply py-1 px-2 border-b border-slate-200;

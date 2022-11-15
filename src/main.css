@@ -7,7 +7,10 @@
 body {
   background-color:#FBFBFA;
   font-family: 'Inter', sans-serif;
-  
+}
+
+strong {
+  @apply font-semibold;
 }
 
 @layer base {
@@ -39,4 +42,5 @@ body {
   --onboard-wallet-button-background-hover: var(--accent-color-hover);
   --onboard-wallet-button-border-color: var(--border-color);
   --onboard-wallet-app-icon-border-color: var(--border-color);
+  --onboard-modal-z-index: 50;
 }
