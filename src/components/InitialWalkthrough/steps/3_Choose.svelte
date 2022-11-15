@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onDestroy, onMount } from 'svelte';
   import WalkthroughItem from '~/design-system/WalkthroughItem.svelte';
-  import PulsingCircle from '~/design-system/PulsingCircle.svelte';
 
   onMount(() => {
     const container = getContainer();
@@ -17,8 +16,6 @@
 
   const getContainer = () => document.getElementById('main_widget_container');
 </script>
-
-<PulsingCircle top={100} left={150} />
 
 <WalkthroughItem width={null} target="main_widget_container" title="3 of 5" position="top">
   <p>
