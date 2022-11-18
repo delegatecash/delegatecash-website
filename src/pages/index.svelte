@@ -135,10 +135,13 @@
   id="main_widget_container"
   class="text-center w-full md:max-w-lg lg:w-1/2 md:w-4/6 m-auto"
   class:mb-10={delegations.length}
+  class:mt-10={$initialWalkthrough.isActive}
 >
-  <button on:click={() => initialWalkthrough.turnOn()}>
-    Need help delegating your first wallet?
-  </button>
+  {#if !$initialWalkthrough.isActive}
+    <button on:click={() => initialWalkthrough.turnOn()}>
+      Need help delegating your first wallet?
+    </button>
+  {/if}
 
   <Card>
     <HorizontalPicker
