@@ -136,6 +136,10 @@
   class="text-center w-full md:max-w-lg lg:w-1/2 md:w-4/6 m-auto"
   class:mb-10={delegations.length}
 >
+  <button on:click={() => initialWalkthrough.turnOn()}>
+    Need help delegating your first wallet?
+  </button>
+
   <Card>
     <HorizontalPicker
       value={optionValue}
@@ -227,5 +231,15 @@
 
   p {
     @apply text-red-500 text-xs mt-1 ml-2;
+  }
+
+  button {
+    @apply font-bold mb-8;
+    padding-bottom: 1px;
+    color: #4ca6fb;
+    border-bottom: 3px solid #4ca6fb;
+  }
+  button:hover {
+    opacity: 0.8;
   }
 </style>
