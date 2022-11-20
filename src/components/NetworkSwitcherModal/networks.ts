@@ -72,6 +72,22 @@ export const networks: NetworkType[] = [
     testnet: true,
     explorerUrl: 'https://explorer.celo.org/alfajores',
   },
+  {
+    chainName: 'Avalanche',
+    chainId: 43114,
+    rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
+    nativeCurrency: { name: 'AVAX', symbol: 'AVAX', decimals: 18 },
+    testnet: false,
+    explorerUrl: 'https://snowtrace.io',
+  },
+  {
+    chainName: 'Avalanche (Fuji)',
+    chainId: 43113,
+    rpcUrls: ['https://api.avax-test.network/ext/bc/C/rpc'],
+    nativeCurrency: { name: 'AVAX', symbol: 'AVAX', decimals: 18 },
+    testnet: true,
+    explorerUrl: 'https://testnet.snowtrace.io',
+  },
 ];
 
 export const findNetworkByChainId = (chainId: number) => {
