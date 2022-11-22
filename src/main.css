@@ -5,7 +5,6 @@
 @tailwind base;
 
 body {
-  background-color:#FBFBFA;
   font-family: 'Inter', sans-serif;
 }
 
@@ -26,7 +25,7 @@ strong {
   --text-color: #1a1d26; 
   --border-color: #ebebed; 
   --accent-background: #ebebed; 
-  --accent-color: #4ca6fb; 
+  --accent-color: #2F83DC; 
   --accent-color-hover: #eff1fc; 
   --secondary-text-color: #d5d7dd; 
   --onboard-connect-sidebar-background: var(--accent-background);
