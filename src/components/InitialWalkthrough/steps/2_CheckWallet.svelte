@@ -9,9 +9,11 @@
   });
 
   onDestroy(() => {
-    const container = getContainer();
-    container.style.zIndex = null;
-    modals.setWalletDropdown(false, true);
+    try {
+      const container = getContainer();
+      container.style.zIndex = null;
+      modals.setWalletDropdown(false, true);
+    } catch {}
   });
 
   const getContainer = () => document.getElementById('current_wallet_container');

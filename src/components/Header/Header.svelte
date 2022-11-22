@@ -1,11 +1,9 @@
 <script>
-  import Logo from '../Logo.svelte';
   import Navigation from './Navigation/DesktopNavigation.svelte';
 </script>
 
 <header>
   <a href="/">
-    <!-- <Logo /> -->
     <img src="/images/delegatecash-logo.png" />
   </a>
   <Navigation />

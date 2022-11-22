@@ -15,9 +15,17 @@
   });
 
   const getContainer = () => document.getElementById('main_widget_container');
+  let windowWidth = window.innerWidth;
 </script>
 
-<WalkthroughItem width={null} target="main_widget_container" title="5 of 5" position="left">
+<svelte:window bind:innerWidth={windowWidth} />
+
+<WalkthroughItem
+  width={null}
+  target="main_widget_container"
+  title="5 of 5"
+  position={windowWidth < 768 ? 'top' : 'left'}
+>
   <p>Click <strong>Submit Delegation</strong> to submit your transaction!</p>
 </WalkthroughItem>
 

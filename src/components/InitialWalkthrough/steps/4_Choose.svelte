@@ -15,9 +15,17 @@
   });
 
   const getContainer = () => document.getElementById('main_widget_container');
+  let windowWidth = window.innerWidth;
 </script>
 
-<WalkthroughItem width={null} target="main_widget_container" title="4 of 5" position="left">
+<svelte:window bind:innerWidth={windowWidth} />
+
+<WalkthroughItem
+  width={null}
+  target="main_widget_container"
+  title="4 of 5"
+  position={windowWidth < 768 ? 'top' : 'left'}
+>
   <p>
     In the <strong>Delegate Wallet</strong> input field, type in your hot wallet.
   </p>

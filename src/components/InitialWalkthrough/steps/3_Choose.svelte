@@ -15,9 +15,17 @@
   });
 
   const getContainer = () => document.getElementById('main_widget_container');
+  let windowWidth = window.innerWidth;
 </script>
 
-<WalkthroughItem width={null} target="main_widget_container" title="3 of 5" position="left">
+<svelte:window bind:innerWidth={windowWidth} />
+
+<WalkthroughItem
+  width={null}
+  target="main_widget_container"
+  title="3 of 5"
+  position={windowWidth < 768 ? 'top' : 'left'}
+>
   <p>
     It's not uncommon to want to only allow a certain contract to interact with your wallet but for
     this example, we'll be delegating your entire wallet carte-blanche.
