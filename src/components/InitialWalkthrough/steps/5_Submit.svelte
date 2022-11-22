@@ -17,7 +17,7 @@
   const getContainer = () => document.getElementById('main_widget_container');
 </script>
 
-<WalkthroughItem width={null} target="main_widget_container" title="5 of 5" position="top">
+<WalkthroughItem width={null} target="main_widget_container" title="5 of 5" position="left">
   <p>Click <strong>Submit Delegation</strong> to submit your transaction!</p>
 </WalkthroughItem>
 

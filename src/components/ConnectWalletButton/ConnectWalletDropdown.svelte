@@ -40,7 +40,7 @@
     background-color: #fff;
     width: 175px;
 
-    @apply z-50 fixed top-10 rounded shadow-lg border border-slate-200;
+    @apply z-50 absolute mt-1 rounded shadow-lg text-sm border border-slate-200;
 
     li {
       @apply py-1 px-2 border-b border-slate-200;

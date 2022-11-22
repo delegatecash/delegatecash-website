@@ -17,7 +17,7 @@
   const getContainer = () => document.getElementById('main_widget_container');
 </script>
 
-<WalkthroughItem width={null} target="main_widget_container" title="4 of 5" position="top">
+<WalkthroughItem width={null} target="main_widget_container" title="4 of 5" position="left">
   <p>
     In the <strong>Delegate Wallet</strong> input field, type in your hot wallet.
   </p>

@@ -2,7 +2,7 @@
   import { modals } from '~/stores/modals';
   import Icon from '~/design-system/icon/Icon.svelte';
   import BlurContainer from '~/design-system/BlurContainer.svelte';
-  import ConnectWalletButton from '~/components/ConnectWalletButton.svelte';
+  import ConnectWalletButton from '~/components/ConnectWalletButton/ConnectWalletButton.svelte';
   import NavLinks from './NavLinks.svelte';
   import MobileNavigation from './MobileNavigation.svelte';
 
@@ -40,17 +40,17 @@
 
 <style lang="postcss">
   nav {
-    @apply flex text-sm font-light items-center;
+    @apply flex font-light items-center;
 
     a {
-      @apply hidden mr-6;
+      @apply hidden mr-10;
       @screen sm {
         @apply inline-block;
       }
     }
 
     button {
-      @apply inline-block ml-3 mr-2 opacity-70 cursor-pointer w-2.5;
+      @apply inline-block ml-5 opacity-70 cursor-pointer w-2.5;
       &:hover {
         @apply opacity-100;
       }
@@ -60,7 +60,7 @@
     }
 
     div {
-      @apply hidden align-middle items-center border-l border-gray-200 ml-6 pl-6 pr-4;
+      @apply hidden align-middle items-center ml-6 pl-6 pr-4;
       @screen sm {
         @apply flex;
       }

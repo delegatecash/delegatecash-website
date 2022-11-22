@@ -9,11 +9,12 @@
   });
 
   onDestroy(() => {
-    // getContainer().style.zIndex = null;
+    const container = getContainer();
+    container.style.zIndex = null;
     modals.setWalletDropdown(false, true);
   });
 
-  const getContainer = () => document.getElementById('header');
+  const getContainer = () => document.getElementById('current_wallet_container');
 </script>
 
 <WalkthroughItem

@@ -3,7 +3,7 @@ import type { InitOptions } from "@web3-onboard/core"
 
 import walletConnectModule from '@web3-onboard/walletconnect';
 import injectedModule from '@web3-onboard/injected-wallets';
-import { networks } from '~/components/NetworkSwitcherModal/networks';
+import { networks } from '~/components/Modals/NetworkSwitcherModal/networks';
 import eni18n from "@web3-onboard/core/dist/i18n/en.json";
 import Buffer from "buffer";
 
@@ -23,8 +23,8 @@ const walletConnect = walletConnectModule({
 
 const appMetadata: InitOptions['appMetadata'] = {
   name: 'delegate.cash',
-  icon: '/images/greenYellowLogo.png',
-  logo: '/images/greenYellowLogo.png',
+  icon: '/images/delegatecash-logo.png',
+  logo: '/images/delegatecash-logo.png',
   description: 'My app using Onboard',
   recommendedInjectedWallets: [
     { name: 'Coinbase', url: 'https://wallet.coinbase.com/' },

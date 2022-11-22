@@ -25,7 +25,7 @@
         item.style.width = targetInfo.width.toString() + 'px';
         item.style.top = (targetInfo?.top - item.offsetHeight - 10).toString() + 'px';
       } else if (position === 'bottom') {
-        item.style.top = (targetInfo?.top + targetInfo?.height + 5).toString() + 'px';
+        item.style.top = (targetInfo?.top + targetInfo?.height + 20).toString() + 'px';
       } else if (position === 'left') {
         item.style.top = (targetInfo?.top).toString() + 'px';
         item.style.right =
