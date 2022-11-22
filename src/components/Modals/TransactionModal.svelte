@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   import BlurContainer from '~/design-system/BlurContainer.svelte';
   import HorizontalLoading from '~/design-system/HorizontalLoading.svelte';
-  import SuccessAnimationIcon from './SuccessAnimationIcon/SuccessAnimationIcon.svelte';
+  import SuccessAnimationIcon from '../SuccessAnimationIcon/SuccessAnimationIcon.svelte';
   import Icon from '~/design-system/icon/Icon.svelte';
 
   const dispatch = createEventDispatcher();

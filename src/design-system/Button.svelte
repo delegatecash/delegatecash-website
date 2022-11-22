@@ -36,7 +36,7 @@
     }
 
     &.primary {
-      background-color: #4ca6fb;
+      background-color: #2f83dc;
       color: #fff;
     }
 

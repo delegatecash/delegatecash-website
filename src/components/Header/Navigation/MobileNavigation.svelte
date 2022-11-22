@@ -1,7 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte';
   import Icon from '~/design-system/icon/Icon.svelte';
-  import ConnectWalletButton from '../ConnectWalletButton.svelte';
+  import ConnectWalletButton from '../../ConnectWalletButton/ConnectWalletButton.svelte';
   import NavLinks from './NavLinks.svelte';
 
   const dispatch = createEventDispatcher();
@@ -17,7 +17,6 @@
     </ul>
   </div>
   <section>
-    <ConnectWalletButton on:walletClick={() => dispatch('walletClick')} />
     <div class="flex">
       <NavLinks href="https://twitter.com/delegatecash">
         <Icon name="twitter" />

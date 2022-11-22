@@ -8,7 +8,7 @@
 
 <style lang="postcss">
   a {
-    @apply mr-6 fill-gray-500 w-5;
+    @apply mr-8 fill-gray-500 w-6;
     &:hover {
       @apply fill-gray-600;
     }

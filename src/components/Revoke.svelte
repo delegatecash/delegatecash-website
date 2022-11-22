@@ -61,47 +61,45 @@
   };
 </script>
 
-<div class="text-center w-full md:max-w-lg lg:w-1/2 md:w-4/6 m-auto mb-10">
-  <Card>
-    <HorizontalPicker
-      value={optionValue}
-      options={['Revoke Self', 'Revoke Delegate']}
-      on:click={e => onHorizontalPickerChange(e)}
+<Card>
+  <HorizontalPicker
+    value={optionValue}
+    options={['Revoke Self', 'Revoke Delegate']}
+    on:click={e => onHorizontalPickerChange(e)}
+  />
+  <NoticeContainer type="destruction">{noticeContainerInfo.description}</NoticeContainer>
+
+  {#if optionValue == 0}
+    <TextInput
+      bind:value={vault}
+      id="vault"
+      label="Vault"
+      placeholder="Example: Your cold wallet"
     />
-    <NoticeContainer type="destruction">{noticeContainerInfo.description}</NoticeContainer>
+  {/if}
 
-    {#if optionValue == 0}
-      <TextInput
-        bind:value={vault}
-        id="vault"
-        label="Vault"
-        placeholder="Example: Your cold wallet"
-      />
-    {/if}
+  {#if optionValue == 1}
+    <TextInput
+      bind:value={delegate}
+      id="delegate"
+      label="Delegate"
+      placeholder="Example: Your hot wallet"
+    />
+  {/if}
 
-    {#if optionValue == 1}
-      <TextInput
-        bind:value={delegate}
-        id="delegate"
-        label="Delegate"
-        placeholder="Example: Your hot wallet"
-      />
-    {/if}
-
-    <div class="mt-3">
-      <Button
-        size="md"
-        action="destructive"
-        isFullWidth
-        disabled={!$wallet.isConnected || !isFormValid}
-        on:click={() => submitRevoke()}
-      >
-        {#if $wallet.isConnected}
-          Revoke
-        {:else}
-          Connect wallet first
-        {/if}
-      </Button>
-    </div>
-  </Card>
-</div>
+  <div class="mt-3">
+    <Button
+      size="md"
+      action="destructive"
+      isFullWidth
+      disabled={!$wallet.isConnected || !isFormValid}
+      on:click={() => submitRevoke()}
+    >
+      {#if $wallet.isConnected}
+        Revoke
+      {:else}
+        Connect wallet first
+      {/if}
+    </Button>
+  </div>
+</Card>

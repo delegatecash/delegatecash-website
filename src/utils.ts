@@ -1,7 +1,7 @@
 import { get } from 'svelte/store';
 import { transaction } from '~/stores/transaction';
 import { wallet } from '~/stores/wallet';
-import { findNetworkByChainId } from '~/components/NetworkSwitcherModal/networks';
+import { findNetworkByChainId } from '~/components/Modals/NetworkSwitcherModal/networks';
 import type { RegistryRow } from "~/components/RegistryTableByWallet/types";
 import { delegatecash } from './stores/delegatecash';
 import onboard from "~/onboard";

@@ -10,7 +10,7 @@
     ///delete getContainer().style.zIndex;
   });
 
-  const getContainer = () => document.getElementById('header');
+  const getContainer = () => document.getElementById('connect_wallet');
 </script>
 
 <WalkthroughItem width={300} target="connect_wallet" title="1 of 5">

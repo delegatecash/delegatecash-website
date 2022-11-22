@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher, onMount } from 'svelte';
-  import { findNetworkByChainId } from '~/components/NetworkSwitcherModal/networks';
+  import { findNetworkByChainId } from '~/components/Modals/NetworkSwitcherModal/networks';
   import { wallet } from '~/stores/wallet';
   import { modals } from '~/stores/modals';
   import { delegatecash } from '~/stores/delegatecash';
@@ -8,7 +8,7 @@
   import { ethers } from 'ethers';
   import onboard from '~/onboard';
   import Button from '~/design-system/Button.svelte';
-  import WalletOptionDropdown from '~/components/Navigation/WalletOptionDropdown.svelte';
+  import WalletOptionDropdown from '~/components/ConnectWalletButton/ConnectWalletDropdown.svelte';
   import type { AppState } from '@web3-onboard/core';
 
   const dispatch = createEventDispatcher();
@@ -48,7 +48,7 @@
 
     // Automatically connect to the last wallet
     const previouslyConnectedWallets = JSON.parse(window.localStorage.getItem('connectedWallets'));
-    if (previouslyConnectedWallets.length) {
+    if (previouslyConnectedWallets?.length) {
       await onboard.connectWallet({
         autoSelect: { label: previouslyConnectedWallets[0], disableModals: true },
       });
@@ -58,7 +58,7 @@
 
 {#if $wallet.isConnected && $wallet.currentWallet}
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div>
+  <div id="current_wallet_container">
     <p
       id="current_wallet"
       title={$wallet.currentWallet}
@@ -72,7 +72,11 @@
         {truncateWallet($wallet.currentWallet, 4, 4)}
       {/if}
     </p>
-    <span>
+    <span
+      on:click={() => {
+        modals.toggleWalletDropdown();
+      }}
+    >
       {#if foundNetwork}
         {foundNetwork.chainName}
       {:else}
