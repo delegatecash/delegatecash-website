@@ -7,7 +7,7 @@
   import Button from '~/design-system/Button.svelte';
   import RegistryTableByWallet from '~/components/RegistryTableByWallet/RegistryTableByWallet.svelte';
   import Revoke from '~/components/Revoke.svelte';
-  import MainSection from '~/components/MainSection.svelte';
+  import MainSection from '~/components/MainPage/MainSection.svelte';
 
   $: loading = true;
 
