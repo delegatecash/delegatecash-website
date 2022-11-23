@@ -116,7 +116,7 @@
   });
 
   onMount(() => {
-    const { delegate, contract, tokenId, walkthrough, complete } = $params;
+    const { delegate, contract, tokenId, walkthrough } = $params;
 
     delegateInput = delegate || '';
     contractInput = contract || '';
@@ -131,11 +131,6 @@
     //
     if (typeof walkthrough !== 'undefined') {
       initialWalkthrough.turnOn();
-    }
-
-    console.log(complete);
-    if (typeof complete !== 'undefined') {
-      completeParam = true;
     }
   });
 </script>
