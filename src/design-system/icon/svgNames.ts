@@ -7,6 +7,7 @@ import EllipsisVerticalIcon from './svgs/ellipsis-vertical.svelte';
 import XIcon from './svgs/x.svelte';
 import CheckShieldIcon from './svgs/check-shield.svelte';
 import TwitterIcon from './svgs/twitter.svelte';
+import DuneIcon from './svgs/dune.svelte';
 
 export const iconSvgNames = {
   book: BookIcon,
@@ -17,7 +18,8 @@ export const iconSvgNames = {
   'ellipsis-vertical': EllipsisVerticalIcon,
   x: XIcon,
   'check-shield': CheckShieldIcon,
-  twitter: TwitterIcon
+  twitter: TwitterIcon,
+  dune: DuneIcon
 } as const;
 
 export type IconName = keyof typeof iconSvgNames;

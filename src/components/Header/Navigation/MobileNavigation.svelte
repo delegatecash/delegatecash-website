@@ -24,6 +24,7 @@
       <NavLinks href="https://github.com/delegatecash">
         <Icon name="github" />
       </NavLinks>
+      <NavLinks href="https://dune.com/beetle/delegate-cash"><Icon name="dune" /></NavLinks>
       <NavLinks href="https://etherscan.io/address/0x00000000000076A84feF008CDAbe6409d2FE638B"
         ><Icon name="etherscan" />
       </NavLinks>
