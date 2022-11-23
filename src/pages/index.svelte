@@ -12,7 +12,9 @@
   import Button from '~/design-system/Button.svelte';
   import RegistryTableByWallet from '~/components/RegistryTableByWallet/RegistryTableByWallet.svelte';
   import InitialWalkthrough from '~/components/InitialWalkthrough/InitialWalkthrough.svelte';
-  import MainSection from '~/components/MainSection.svelte';
+  import MainSection from '~/components/MainPage/MainSection.svelte';
+  import Stats from '~/components/MainPage/Stats.svelte';
+  import Partners from '~/components/MainPage/Partners.svelte';
 
   $: optionValue = 0;
 
@@ -273,63 +275,13 @@
   </svg>
 </MainSection>
 
-<!-- <section>
-  <h3>
-    We are protecting <span class="stats-green">$xxx</span> assets with a total of
-    <span class="stats-yellow">xxx wallets</span> delegated.
-  </h3>
-</section> -->
+<Stats />
 
-{#if delegations.length}
-  <div class="px-5 mt-10 mb-20">
-    <div class="font-bold mb-2">Delegations</div>
-    <RegistryTableByWallet {loading} data={delegations} showRevoke={false} />
-  </div>
-{/if}
+<Partners />
+
+<div class="h-20" />
 
 <style lang="postcss">
-  section {
-    color: #333;
-    @apply w-full mx-auto px-5 my-10 text-center;
-
-    @screen md {
-      max-width: 800px;
-    }
-
-    @screen lg {
-      @apply my-20;
-      max-width: 1000px;
-    }
-
-    h3 {
-      font-weight: 900;
-      @apply text-2xl;
-      @apply lg:leading-[64px];
-
-      span.stats-green {
-        color: #006a41;
-      }
-
-      span.stats-yellow {
-        color: #ffc300;
-      }
-
-      @screen sm {
-        @apply text-3xl;
-      }
-
-      @screen md {
-        @apply text-4xl;
-        line-height: 3rem;
-      }
-
-      @screen lg {
-        @apply text-5xl;
-        line-height: 4rem;
-      }
-    }
-  }
-
   a {
     color: rgba(0, 0, 0, 0.5);
     @apply font-semibold inline-block text-sm mt-3;

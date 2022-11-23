@@ -19,7 +19,7 @@
 
 {#if error?.length > 0}
   <div on:click={() => modals.setNetworkSwitcher(true)}>
-    This network is not yet supported. Click <strong>here</strong> to choose a compatable network.
+    This network is not yet supported. Click <strong>here</strong> to choose a compatible network.
   </div>
 {/if}
 

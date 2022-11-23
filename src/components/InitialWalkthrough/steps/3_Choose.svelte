@@ -28,7 +28,7 @@
 >
   <p>
     It's not uncommon to want to only allow a certain contract to interact with your wallet but for
-    this example, we'll be delegating your entire wallet carte-blanche.
+    this example, we'll be delegating your entire wallet in it's entirety.
   </p>
   <p>Select the <strong>Wallet</strong> tab to continue.</p>
 </WalkthroughItem>
