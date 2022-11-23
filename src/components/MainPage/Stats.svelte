@@ -1,6 +1,6 @@
 <section>
   <h3>
-    We are protecting <span class="stats-green">$30m+</span> assets with over
+    We are protecting <span class="stats-green">$115m+</span> assets with over
     <span class="stats-yellow">500 wallets</span> delegated.
   </h3>
 </section>
