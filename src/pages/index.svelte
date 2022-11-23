@@ -43,6 +43,9 @@
   $: delegateInput = '';
   $: contractInput = '';
   $: tokenIdInput = '';
+  $: completeParam = false;
+
+  $: transactionJustCompleted = typeof $params?.complete !== 'undefined';
 
   $: isFormValid = (() => {
     if (delegateInput.toLocaleLowerCase() === $wallet.currentWallet) return false;
@@ -113,7 +116,7 @@
   });
 
   onMount(() => {
-    const { delegate, contract, tokenId, walkthrough } = $params;
+    const { delegate, contract, tokenId, walkthrough, complete } = $params;
 
     delegateInput = delegate || '';
     contractInput = contract || '';
@@ -128,6 +131,11 @@
     //
     if (typeof walkthrough !== 'undefined') {
       initialWalkthrough.turnOn();
+    }
+
+    console.log(complete);
+    if (typeof complete !== 'undefined') {
+      completeParam = true;
     }
   });
 </script>
@@ -145,68 +153,80 @@
 
   <div slot="right" id="main_widget_container" class="text-center">
     <Card>
-      <HorizontalPicker
-        value={optionValue}
-        options={['Wallet', 'Contract', 'NFT']}
-        on:click={e => onHorizontalPickerChange(e)}
-      />
-      <NoticeContainer>{noticeContainerInfo.description}</NoticeContainer>
-      <TextInput
-        bind:value={delegateInput}
-        id="delegate"
-        label="Delegate Wallet"
-        placeholder="Example: Your hot wallet"
-      />
-
-      {#if delegateInput.toLocaleLowerCase() === $wallet.currentWallet}
-        <p>The wallet is identical to your connected wallet.</p>
-      {/if}
-
-      {#if optionValue == 1}
-        <TextInput
-          bind:value={contractInput}
-          id="contract"
-          label="Contract"
-          placeholder="Example: ERC20 token address"
-        />
-      {/if}
-      {#if optionValue == 2}
-        <div class="float-right w-24">
-          <TextInput
-            type="number"
-            bind:value={tokenIdInput}
-            id="tokenid"
-            label="Token ID"
-            placeholder="#"
-          />
+      {#if transactionJustCompleted}
+        <div class="text-xl h-80 text-left p-5 pb-0 overflow-scroll">
+          <h2 class="font-bold">Recent Delegations</h2>
+          <div class="text-left mb-5">
+            <a class="text-gray-900" href="/">&larr; Delegate another wallet</a>
+          </div>
+          <RegistryTableByWallet {loading} data={delegations} showRevoke={false} shadow={false} />
         </div>
-        <div class="pr-3 overflow-hidden">
-          <TextInput
-            bind:value={contractInput}
-            id="contract"
-            label="Contract"
-            placeholder="Address of NFT project"
+      {:else}
+        <div class="p-2">
+          <HorizontalPicker
+            value={optionValue}
+            options={['Wallet', 'Contract', 'NFT']}
+            on:click={e => onHorizontalPickerChange(e)}
           />
-        </div>
-      {/if}
+          <NoticeContainer>{noticeContainerInfo.description}</NoticeContainer>
+          <TextInput
+            bind:value={delegateInput}
+            id="delegate"
+            label="Delegate Wallet"
+            placeholder="Example: Your hot wallet"
+          />
 
-      <div class="mt-3">
-        <Button
-          size="md"
-          isFullWidth
-          disabled={!$wallet.isConnected || !isFormValid}
-          on:click={() => {
-            initialWalkthrough.reset();
-            submitDelegation();
-          }}
-        >
-          {#if $wallet.isConnected}
-            Submit Delegation
-          {:else}
-            Connect your vault, like a Ledger, first
+          {#if delegateInput.toLocaleLowerCase() === $wallet.currentWallet}
+            <p>The wallet is identical to your connected wallet.</p>
           {/if}
-        </Button>
-      </div>
+
+          {#if optionValue == 1}
+            <TextInput
+              bind:value={contractInput}
+              id="contract"
+              label="Contract"
+              placeholder="Example: ERC20 token address"
+            />
+          {/if}
+          {#if optionValue == 2}
+            <div class="float-right w-24">
+              <TextInput
+                type="number"
+                bind:value={tokenIdInput}
+                id="tokenid"
+                label="Token ID"
+                placeholder="#"
+              />
+            </div>
+            <div class="pr-3 overflow-hidden">
+              <TextInput
+                bind:value={contractInput}
+                id="contract"
+                label="Contract"
+                placeholder="Address of NFT project"
+              />
+            </div>
+          {/if}
+
+          <div class="mt-3">
+            <Button
+              size="md"
+              isFullWidth
+              disabled={!$wallet.isConnected || !isFormValid}
+              on:click={() => {
+                initialWalkthrough.reset();
+                submitDelegation();
+              }}
+            >
+              {#if $wallet.isConnected}
+                Submit Delegation
+              {:else}
+                Connect your vault, like a Ledger, first
+              {/if}
+            </Button>
+          </div>
+        </div>
+      {/if}
     </Card>
     <a class:disabled={!$wallet.isConnected} href="/{$wallet.currentWallet || ''}">
       Need to revoke delegations?

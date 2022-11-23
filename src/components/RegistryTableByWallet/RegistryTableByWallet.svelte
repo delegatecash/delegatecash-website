@@ -20,6 +20,7 @@
   export let loading: boolean;
   export let data: RegistryRow[];
   export let showRevoke = false;
+  export let shadow = true;
 
   $: columns = (() => {
     let cols = ['Delegate', 'Type', 'Contract', 'Token ID'];
@@ -28,7 +29,7 @@
   })();
 </script>
 
-<Table {columns}>
+<Table {columns} {shadow}>
   {#if !loading}
     {#if data.length === 0}
       <TableRow>

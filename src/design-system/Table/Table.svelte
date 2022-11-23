@@ -1,8 +1,9 @@
 <script lang="ts">
   export let columns: string[] = [];
+  export let shadow = true;
 </script>
 
-<div>
+<div class:table_shadow={shadow}>
   <table>
     <thead>
       <tr>
@@ -20,6 +21,9 @@
 <style lang="postcss">
   div {
     @apply overflow-x-auto relative rounded;
+  }
+
+  div.table_shadow {
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.16);
   }
 
