@@ -223,12 +223,14 @@
       {/if}
     </Card>
 
-    {#if viewRecentDelegations}
-      <a class:disabled={!$wallet.isConnected} href="/{$wallet.currentWallet || ''}">
-        Need to revoke delegations?
-      </a>
-    {:else}
-      <a class:disabled={!$wallet.isConnected} href="/?recent"> View recent delegations </a>
+    {#if $wallet.isConnected}
+      {#if viewRecentDelegations}
+        <a class:disabled={!$wallet.isConnected} href="/{$wallet.currentWallet || ''}">
+          Need to revoke delegations?
+        </a>
+      {:else}
+        <a href="/?recent">View recent delegations </a>
+      {/if}
     {/if}
   </div>
 
