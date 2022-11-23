@@ -43,9 +43,8 @@
   $: delegateInput = '';
   $: contractInput = '';
   $: tokenIdInput = '';
-  $: completeParam = false;
 
-  $: transactionJustCompleted = typeof $params?.complete !== 'undefined';
+  $: viewRecentDelegations = typeof $params?.recent !== 'undefined';
 
   $: isFormValid = (() => {
     if (delegateInput.toLocaleLowerCase() === $wallet.currentWallet) return false;
@@ -148,7 +147,7 @@
 
   <div slot="right" id="main_widget_container" class="text-center">
     <Card>
-      {#if transactionJustCompleted}
+      {#if viewRecentDelegations}
         <div class="text-xl h-80 text-left p-5 pb-0 overflow-scroll">
           <h2 class="font-bold">Recent Delegations</h2>
           <div class="text-left mb-5">
@@ -223,9 +222,14 @@
         </div>
       {/if}
     </Card>
-    <a class:disabled={!$wallet.isConnected} href="/{$wallet.currentWallet || ''}">
-      Need to revoke delegations?
-    </a>
+
+    {#if viewRecentDelegations}
+      <a class:disabled={!$wallet.isConnected} href="/{$wallet.currentWallet || ''}">
+        Need to revoke delegations?
+      </a>
+    {:else}
+      <a class:disabled={!$wallet.isConnected} href="/?recent"> View recent delegations </a>
+    {/if}
   </div>
 
   <svg

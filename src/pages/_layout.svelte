@@ -17,7 +17,7 @@
     message={$transaction.message}
     transactionUrl={$transaction.transactionUrl}
     on:close={() =>
-      window.location.pathname === '/' ? window.location.replace('/?complete') : location.reload()}
+      window.location.pathname === '/' ? window.location.replace('/?recent') : location.reload()}
   />
 {/if}
 
