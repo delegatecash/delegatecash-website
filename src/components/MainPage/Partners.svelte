@@ -1,6 +1,7 @@
 <script>
   const partners = [
     { url: 'https://artblocks.io', image: '/images/partners/artblocks.png' },
+    { url: 'https://tokenproof.xyz', image: '/images/partners/tokenproof.png' },
     { url: 'https://www.cyberbrokers.com', image: '/images/partners/cyberbrokers.png' },
     { url: 'https://invisiblefriends.io', image: '/images/partners/invisible-friends.png' },
     { url: 'https://www.forgottenrunes.com', image: '/images/partners/forgotten-runes.png' },
