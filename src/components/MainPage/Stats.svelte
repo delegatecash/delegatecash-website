@@ -1,7 +1,25 @@
+<script>
+  import { onMount } from 'svelte';
+  import { getStats } from '~/utils';
+
+  $: stats = { tvp: 120, totalUsers: 900 };
+
+  onMount(async () => {
+    stats = await getStats();
+  });
+</script>
+
 <section>
   <h3>
-    We are protecting <span class="stats-green">$115m+</span> assets with over
-    <span class="stats-yellow">500 wallets</span> delegated.
+    We are protecting <a
+      href="https://dune.com/queries/1649062/2733111"
+      target="_BLANK"
+      class="stats-green">${stats.tvp}m+</a
+    >
+    assets with over
+    <a href="https://dune.com/queries/1485539/2507779" target="_BLANK" class="stats-yellow"
+      >{stats.totalUsers.toLocaleString()} wallets</a
+    > delegated.
   </h3>
 </section>
 
@@ -23,12 +41,25 @@
       @apply text-2xl;
       @apply lg:leading-[64px];
 
-      span.stats-green {
+      a.stats-green {
         color: #006a41;
+
+        &:hover {
+          border-bottom: 8px solid rgba(0, 106, 65, 0.9);
+        }
       }
 
-      span.stats-yellow {
+      a.stats-yellow {
         color: #ffc300;
+
+        &:hover {
+          border-bottom: 8px solid rgba(255, 195, 0, 0.9);
+        }
+      }
+
+      a:hover {
+        cursor: pointer;
+        opacity: 0.9;
       }
 
       @screen sm {

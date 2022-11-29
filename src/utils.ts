@@ -131,3 +131,18 @@ export const clickOutsideHandler = node => {
     },
   };
 };
+
+export const getStats = async () => {
+  const [tvp, totalUsers] = await Promise.all([getTvp(), getTotalUsers()]);
+  return { tvp, totalUsers };
+}
+
+const getTvp = async () => {
+  const tvp = await (await fetch("https://api.delegate.cash/stats/tvp")).json();
+  return tvp.result;
+}
+
+const getTotalUsers = async () => {
+  const totalUsers = await (await fetch("https://api.delegate.cash/stats/total-users")).json();
+  return totalUsers.result;
+}
