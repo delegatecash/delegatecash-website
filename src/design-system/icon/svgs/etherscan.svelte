@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 293.775 293.667">
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 293.775 293.667">
   <g id="etherscan-logo-light-circle" transform="translate(-219.378 -213.333)">
     <path
       id="Path_1"

@@ -8,6 +8,7 @@ import XIcon from './svgs/x.svelte';
 import CheckShieldIcon from './svgs/check-shield.svelte';
 import TwitterIcon from './svgs/twitter.svelte';
 import DuneIcon from './svgs/dune.svelte';
+import SolidityIcon from './svgs/solidity.svelte';
 
 export const iconSvgNames = {
   book: BookIcon,
@@ -19,7 +20,8 @@ export const iconSvgNames = {
   x: XIcon,
   'check-shield': CheckShieldIcon,
   twitter: TwitterIcon,
-  dune: DuneIcon
+  dune: DuneIcon,
+  solidity: SolidityIcon
 } as const;
 
 export type IconName = keyof typeof iconSvgNames;

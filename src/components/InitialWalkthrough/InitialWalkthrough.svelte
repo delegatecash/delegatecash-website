@@ -72,6 +72,6 @@
 
   button {
     @apply inline-block rounded p-1 bg-white px-5;
-    color: #000;
+    color: #0c1822;
   }
 </style>

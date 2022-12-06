@@ -15,6 +15,8 @@
   import MainSection from '~/components/MainPage/MainSection.svelte';
   import Stats from '~/components/MainPage/Stats.svelte';
   import Partners from '~/components/MainPage/Partners.svelte';
+  import Integrations from '~/components/MainPage/Integrations/Integrations.svelte';
+  import CallToAction from '~/components/MainPage/CallToAction.svelte';
 
   $: optionValue = 0;
 
@@ -296,11 +298,21 @@
   </svg>
 </MainSection>
 
+<div class="h-10 md:h-12 lg:h-16" />
+
 <Stats />
+
+<div class="h-10 md:h-12 lg:h-16" />
 
 <Partners />
 
-<div class="h-20" />
+<div class="h-10 md:h-12 lg:h-20" />
+
+<Integrations />
+
+<div class="h-10 md:h-12 lg:h-20" />
+
+<CallToAction />
 
 <style lang="postcss">
   a {
