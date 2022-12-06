@@ -1,22 +1,5 @@
 <script lang="ts">
-  import { ethers } from 'ethers';
-  import { DelegateCash, rawDelegateForAll, rawRevokeAllDelegates } from 'delegatecash';
   import Code from '~/design-system/Code.svelte';
-  import { onMount } from 'svelte';
-
-  const getSampleResonse = async () => {
-    const vault = '0x0000000000000000000000000000000000000001';
-    const delegateForAll = rawDelegateForAll(vault, true);
-    const revokeAllDelegates = rawRevokeAllDelegates();
-
-    return { delegateForAll, revokeAllDelegates };
-  };
-
-  $: sampleResponse = null;
-
-  onMount(async () => {
-    sampleResponse = await getSampleResonse();
-  });
 
   const codeString = `import { DelegateCash, rawDelegateForAll, rawRevokeAllDelegates } from "delegatecash";
 
@@ -38,13 +21,19 @@ console.log({ delegateForAll, revokeAllDelegates });
   <div><Code type="javascript" code={codeString} /></div>
   <div class="rounded-lg m-3 pt-3 pb-5 lg:py-0" style="background-color:#EFF1F4;overflow:scroll">
     <div class="lg:h-auto">
-      {#if sampleResponse}
-        <Code
-          backgroundColor="transparent"
-          type="json"
-          code={JSON.stringify(sampleResponse, null, 1)}
-        />
-      {/if}
+      <Code
+        backgroundColor="transparent"
+        type="json"
+        code={JSON.stringify(
+          {
+            delegateForAll:
+              '0x685ee3e800000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001',
+            revokeAllDelegates: '0x36137872',
+          },
+          null,
+          1,
+        )}
+      />
     </div>
   </div>
 </div>
