@@ -72,7 +72,7 @@
 
   button {
     float: right;
-    color: #000;
+    color: #0c1822;
     @apply mt-2  bg-white px-3 py-1 text-sm rounded;
   }
 </style>

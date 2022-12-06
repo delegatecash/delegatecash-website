@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import Icon from '~/design-system/icon/Icon.svelte';
   import ConnectWalletButton from '../../ConnectWalletButton/ConnectWalletButton.svelte';

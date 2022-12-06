@@ -6,6 +6,7 @@
 
 body {
   font-family: 'Inter', sans-serif;
+  color: #0C1822;
 }
 
 strong {
@@ -43,3 +44,5 @@ strong {
   --onboard-wallet-app-icon-border-color: var(--border-color);
   --onboard-modal-z-index: 50;
 }
+
+

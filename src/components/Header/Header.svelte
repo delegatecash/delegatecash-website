@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Navigation from './Navigation/DesktopNavigation.svelte';
 </script>
 
@@ -23,22 +23,6 @@
 
       @screen md {
         width: 50px;
-      }
-    }
-
-    /* @screen lg {
-      @apply px-10;
-    }
-
-    @screen sm {
-      @apply px-0;
-    } */
-
-    div {
-      @apply hidden;
-
-      @screen md {
-        @apply block;
       }
     }
   }

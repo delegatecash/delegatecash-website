@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
   import { onMount } from 'svelte';
   import { getStats } from '~/utils';
 
-  $: stats = { tvp: 120, totalUsers: 900 };
+  $: stats = { tvp: 130, totalUsers: 1100 };
 
   onMount(async () => {
     stats = await getStats();
@@ -26,7 +26,7 @@
 <style lang="postcss">
   section {
     color: #333;
-    @apply w-full mx-auto px-5 my-10 text-center;
+    @apply w-full mx-auto px-5 text-center;
 
     @screen md {
       max-width: 800px;

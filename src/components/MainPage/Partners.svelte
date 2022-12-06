@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   const partners = [
     { url: 'https://artblocks.io', image: '/images/partners/artblocks.png' },
     { url: 'https://tokenproof.xyz', image: '/images/partners/tokenproof.png' },
@@ -9,7 +9,7 @@
   ];
 </script>
 
-<div class="pb-5 px-5 mx-auto text-center w-full" style="max-width:600px;">
+<div class="pb-5 px-5 mx-auto text-center w-full">
   <h3>Join us with the top projects in the space on any EVM chain you want.</h3>
 </div>
 
@@ -251,7 +251,7 @@
   :root {
     --partners-color-text: #333;
     --partners-color-bg: #fff;
-    --partners-color-bg-accent: #eee;
+    --partners-color-bg-accent: #f9fafc;
     --partners-size: clamp(10rem, 10rem, 30rem);
     --partners-gap: calc(var(--partners-size) / 14);
     --partners-duration: 60s;
@@ -261,11 +261,11 @@
 
   h3 {
     color: #333;
-    font-weight: 800;
-    @apply text-xl;
+    font-weight: 300;
+    @apply text-lg;
 
     @screen sm {
-      @apply text-3xl;
+      @apply text-xl;
     }
   }
 
