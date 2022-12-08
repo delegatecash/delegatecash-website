@@ -1,11 +1,14 @@
 <script lang="ts">
   import Code from '~/design-system/Code.svelte';
 
-  const codeString = `function claim(address _vault) public returns (uint256 tokenId) {
+  const codeString = `// The NFT Contract of the project
+address constant public NFT_CONTRACT = 0x0000000000000000000000000000000000000001;
+
+function claim(address _vault) public returns (uint256 tokenId) {
   address requester = msg.sender;
   
   if (_vault != address(0)) { 
-    bool isDelegateValid = dc.checkDelegateForContract(msg.sender, _vault, address(this));
+    bool isDelegateValid = dc.checkDelegateForContract(msg.sender, _vault, NFT_CONTRACT);
     require(isDelegateValid, "invalid delegate-vault pairing");
     requester = _vault;
   }
