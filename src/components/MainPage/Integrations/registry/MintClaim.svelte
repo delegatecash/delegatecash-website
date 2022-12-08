@@ -2,7 +2,7 @@
   import Code from '~/design-system/Code.svelte';
 
   const codeString = `// The NFT Contract of the project
-address constant public NFT_CONTRACT = 0x0000000000000000000000000000000000000001;
+address public constant NFT_CONTRACT = 0x0000000000000000000000000000000000000001;
 
 function claim(address _vault) public returns (uint256 tokenId) {
   address requester = msg.sender;
