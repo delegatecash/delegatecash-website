@@ -11,7 +11,7 @@
 <svelte:window bind:innerWidth={windowWidth} />
 
 <div class="text-center mt-2 lg:mt-10">
-  <div class="inline-block mr-2 lg:mr-7">
+  <div class="inline-block mr-2 lg:mr-7 align-top">
     <DelegateCashButton
       {label}
       {connectedWallet}
@@ -22,7 +22,7 @@
     />
   </div>
   {#if windowWidth > 450}
-    <div class="inline-block">
+    <div class="inline-block align-top">
       <DelegateCashButton
         {label}
         {connectedWallet}
