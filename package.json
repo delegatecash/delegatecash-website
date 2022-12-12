@@ -40,7 +40,7 @@
     "@web3-onboard/injected-wallets": "^2.3.0",
     "@web3-onboard/walletconnect": "^2.1.3",
     "delegatecash": "^0.3.0",
-    "delegatecash-button-svelte": "^0.1.1",
+    "delegatecash-button-svelte": "^0.1.4",
     "ethers": "^5.7.1",
     "prism-svelte": "^0.5.0",
     "prismjs": "^1.29.0"

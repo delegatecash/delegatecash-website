@@ -328,4 +328,8 @@
   a:hover {
     color: rgba(0, 0, 0, 1);
   }
+
+  p {
+    @apply text-red-500 text-xs mt-1 ml-2;
+  }
 </style>

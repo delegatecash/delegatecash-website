@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { getStats } from '~/utils';
 
-  $: stats = { tvp: 130, totalUsers: 1100 };
+  $: stats = { tvp: 120, totalUsers: 1150 };
 
   onMount(async () => {
     stats = await getStats();
