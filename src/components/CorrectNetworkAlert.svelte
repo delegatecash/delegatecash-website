@@ -1,7 +1,6 @@
 <script lang="ts">
   import { wallet } from '~/stores/wallet';
   import { modals } from '~/stores/modals';
-  import { networks } from '~/components/Modals/NetworkSwitcherModal/networks';
 
   let error: string;
   $: error = null;
@@ -9,8 +8,8 @@
   wallet.subscribe(async w => {
     try {
       if (w.isConnected) {
-        const foundNetwork = networks.find(n => n.chainId === w.currentChainId);
-        if (!foundNetwork) error = 'network_not_supportd';
+        const bytecode = await w.provider.getCode('0x00000000000076A84feF008CDAbe6409d2FE638B');
+        if (bytecode.length <= 2) error = 'network_not_supportd';
         else error = null;
       } else error = null;
     } catch (err) {}

@@ -39,10 +39,10 @@
 
         const ethersProvider = new ethers.providers.Web3Provider(wallets[0].provider, 'any');
         delegatecash.setProvider(ethersProvider);
-        wallet.setConnectionStatus(true, primaryWallet.address, currentChainId);
+        wallet.setConnectionStatus(true, primaryWallet.address, currentChainId, ethersProvider);
       } else {
         delegatecash.reset();
-        wallet.setConnectionStatus(false, null, null);
+        wallet.setConnectionStatus(false, null, null, null);
       }
     });
 
