@@ -88,6 +88,38 @@ export const networks: NetworkType[] = [
     testnet: true,
     explorerUrl: 'https://testnet.snowtrace.io',
   },
+  {
+    chainName: 'Fantom',
+    chainId: 250,
+    rpcUrls: ['https://rpc.fantom.network'],
+    nativeCurrency: { name: 'FTM', symbol: 'FTM', decimals: 18 },
+    testnet: false,
+    explorerUrl: 'https://ftmscan.com',
+  },
+  {
+    chainName: 'Fantom (Testnet)',
+    chainId: 4002,
+    rpcUrls: ['https://rpc.testnet.fantom.network'],
+    nativeCurrency: { name: 'FTM', symbol: 'FTM', decimals: 18 },
+    testnet: true,
+    explorerUrl: 'https://testnet.ftmscan.com',
+  },
+  {
+    chainName: 'Arbitrum',
+    chainId: 42161,
+    rpcUrls: ['https://arb1.arbitrum.io/rpc'],
+    nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
+    testnet: false,
+    explorerUrl: 'https://arbiscan.io',
+  },
+  {
+    chainName: 'Arbitrum (Georli)',
+    chainId: 421613,
+    rpcUrls: ['https://goerli-rollup.arbitrum.io/rpc'],
+    nativeCurrency: { name: 'AGOR', symbol: 'AGOR', decimals: 18 },
+    testnet: true,
+    explorerUrl: 'https://goerli.arbiscan.io',
+  },
 ];
 
 export const findNetworkByChainId = (chainId: number) => {
