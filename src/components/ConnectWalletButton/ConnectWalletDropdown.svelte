@@ -27,6 +27,11 @@
   {/each}
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <li class="font-normal" on:click={() => dispatch('connectWallet')}>Connect another wallet</li>
+  {#if wallets.length}
+    <li class="font-normal" on:click={() => dispatch('clickOutside')}>
+      <a href="/{wallets[0].accounts[0].address}">Manage Delegations</a>
+    </li>
+  {/if}
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <li class="font-normal" on:click={() => dispatch('disconnectWallet', wallets[0])}>
     Disconnect wallet
