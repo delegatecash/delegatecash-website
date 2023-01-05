@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { getStats } from '~/utils';
 
-  $: stats = { tvp: 120, totalUsers: 1150 };
+  $: stats = { tvp: 145, totalUsers: 1350 };
 
   onMount(async () => {
     stats = await getStats();
@@ -18,7 +18,7 @@
     >
     assets with over
     <a href="https://dune.com/queries/1485539/2507779" target="_BLANK" class="stats-yellow"
-      >{stats.totalUsers.toLocaleString()} wallets</a
+      >{stats.totalUsers ? stats.totalUsers.toLocaleString() : '1,350'} wallets</a
     > delegated.
   </h3>
 </section>
