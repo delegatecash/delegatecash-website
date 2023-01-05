@@ -14,7 +14,7 @@
     We are protecting <a
       href="https://dune.com/queries/1649062/2733111"
       target="_BLANK"
-      class="stats-green">${stats.tvp}m+</a
+      class="stats-green">${stats.tvp || 145}m+</a
     >
     assets with over
     <a href="https://dune.com/queries/1485539/2507779" target="_BLANK" class="stats-yellow"
