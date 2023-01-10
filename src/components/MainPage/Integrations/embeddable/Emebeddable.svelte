@@ -46,7 +46,7 @@
       {/if}
     </div>
     <div class="rounded-lg m-3 pt-3 pb-5 lg:py-0" style="background-color:#EFF1F4">
-      <div class="h-48 lg:h-auto">
+      <div class="h-52 lg:h-auto">
         <ButtonComponent />
       </div>
     </div>

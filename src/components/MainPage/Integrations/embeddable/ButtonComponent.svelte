@@ -10,7 +10,26 @@
 
 <svelte:window bind:innerWidth={windowWidth} />
 
-<div class="text-center mt-2 lg:mt-10">
+<div class="text-center mt-2 lg:mt-5">
+  <div class="inline-block mr-2 lg:mr-7 mb-5 align-top">
+    <DelegateCashButton
+      connectedWallet={null}
+      {rpcUrl}
+      rounded={true}
+      on:buttonClick={e => console.log(e)}
+      on:walletSelect={e => console.log(e)}
+    />
+  </div>
+  <div class="inline-block align-top mb-5">
+    <DelegateCashButton
+      {connectedWallet}
+      {rpcUrl}
+      rounded={true}
+      on:buttonClick={e => console.log(e)}
+      on:walletSelect={e => console.log(e)}
+    />
+  </div>
+  <div />
   <div class="inline-block mr-2 lg:mr-7 align-top">
     <DelegateCashButton
       {label}
